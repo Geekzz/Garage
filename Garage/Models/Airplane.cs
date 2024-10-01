@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Garage.Models
 {
-    internal class Airplane: Vechile
+    internal class Airplane: Vehicle
     {
+        public Airplane(string license_plate_number, string color, int model_year, FuelType fuel_type) 
+            : base(license_plate_number, color, model_year, fuel_type)
+        {
+
+        }
     }
 }
