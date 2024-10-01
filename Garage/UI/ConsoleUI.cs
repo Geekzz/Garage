@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Garage.Utils;
 
 namespace Garage.UI
 {
@@ -16,10 +17,14 @@ namespace Garage.UI
             Console.WriteLine("3. Remove vehicle from the garage");
         }
 
-
-        public static void AskGarageSize()
+        public static uint AskMenuOption()
         {
-            Console.WriteLine("Enter garage size: ");
+            return Util.AskForUInt("Menu option: ");
+        }
+
+        public static uint AskGarageSize()
+        {
+            return Util.AskForUInt("Enter garage's capacity: ");
         }
         public static void DisplayGarageAdded(uint capacity)
         {

@@ -14,19 +14,18 @@ namespace Garage
             while (flag)
             {
                 ConsoleUI.DisplayMenu();
-                string? input = Console.ReadLine();
+                uint input = ConsoleUI.AskMenuOption();
 
                 switch (input)
                 {
-                    case "0":
+                    case 0:
                         flag = false;
                         break;
-                    case "1":
-                        ConsoleUI.AskGarageSize();
-                        uint size = uint.Parse(Console.ReadLine());
+                    case 1:
+                        uint size = ConsoleUI.AskGarageSize();
                         garageHandler = new GarageHandler(size);
                         break;
-                    case "2":
+                    case 2:
                         ConsoleUI.AskVehicleType();
                         break;
                 }
