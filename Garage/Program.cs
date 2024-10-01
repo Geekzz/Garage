@@ -6,10 +6,29 @@ namespace Garage
 {
     internal class Program
     {
+        static void AskVehicleToGarage(uint vehicle, GarageHandler garageHandler)
+        {
+            string license_num = ConsoleUI.AskLicensePlateNum();
+            string color = ConsoleUI.AskVehicleColor();
+            string fuel_type = ConsoleUI.AskFuelType();
+            uint model_year = ConsoleUI.AskModelYear();
+
+            switch (vehicle)
+            {
+                case 1:
+                    uint door_num = ConsoleUI.AskNumberOfDoors();
+                    Vehicle vh = new Car(license_num, color, model_year, FuelType.Diesel, door_num);
+                    if (garageHandler.AddVehicle(vh))
+                        ConsoleUI.AddedToGarageSuccess("Car");
+                    else
+                        ConsoleUI.GarageIsFull();
+                    break;
+            }
+        }
         static void Main(string[] args)
         {
             bool flag = true;
-            GarageHandler garageHandler;
+            GarageHandler? garageHandler = null;
 
             while (flag)
             {
@@ -26,8 +45,17 @@ namespace Garage
                         garageHandler = new GarageHandler(size);
                         break;
                     case 2:
-                        ConsoleUI.AskVehicleType();
-                        break;
+                        if(garageHandler == null)
+                        {
+                            ConsoleUI.GarageIsEmpty();
+                            break;
+                        }
+                        else
+                        {
+                            uint vehicle_type = ConsoleUI.AskVehicleType();
+                            AskVehicleToGarage(vehicle_type, garageHandler);
+                            break;
+                        }
                 }
             }
         }

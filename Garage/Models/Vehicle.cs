@@ -19,9 +19,9 @@ namespace Garage.Models
         private string? license_plate_number;
         private string? color;
         private FuelType fuel_type;
-        private int model_year;
+        private uint model_year;
 
-        public Vehicle(string license_plate_number, string color, int model_year, FuelType fuel_type)
+        public Vehicle(string license_plate_number, string color, uint model_year, FuelType fuel_type)
         {
             this.license_plate_number = license_plate_number;
             this.color = color;
@@ -33,7 +33,7 @@ namespace Garage.Models
         public string Color() { return color ?? string.Empty; }
         public FuelType FuelType() { return fuel_type; }
 
-        public int GetModelYear() { return model_year; }
+        public uint GetModelYear() { return model_year; }
 
         public virtual string GetDescription()
         {

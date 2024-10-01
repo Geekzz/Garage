@@ -28,7 +28,6 @@ namespace Garage.Garage
                 {
                     vehicles[i] = vehicle;
                     count++;
-                    Console.WriteLine($"{vehicle} have been added to the garage.");
                     return true;
                 }
             }

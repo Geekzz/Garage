@@ -8,9 +8,16 @@ namespace Garage.Utils
 {
     internal class Util
     {
-        private static void PrintWarningTextColor(string prompt)
+        public static void PrintWarningTextColor(string prompt)
         {
             Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(prompt);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        public static void PrintSuccessTextColor(string prompt)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(prompt);
             Console.ForegroundColor = ConsoleColor.Gray;
         }

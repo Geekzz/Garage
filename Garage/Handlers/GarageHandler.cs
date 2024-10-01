@@ -14,6 +14,10 @@ namespace Garage.Handlers
     {
         private Garage<Vehicle> garage;
 
+        public GarageHandler()
+        {
+
+        }
         public GarageHandler(uint capacity)
         {
             // ny garage med dess storlek

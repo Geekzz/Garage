@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Garage.Interfaces
 {
-    internal class IUI
+    internal interface IUI
     {
+        public static void DisplayMenu() { }
     }
 }

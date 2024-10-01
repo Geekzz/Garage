@@ -8,8 +8,8 @@ namespace Garage.Models
 {
     internal class Car: Vehicle
     {
-        int number_of_doors;
-        public Car(string license_plate_number, string color, int model_year, FuelType fuel_type, int number_of_doors = 4)
+        uint number_of_doors;
+        public Car(string license_plate_number, string color, uint model_year, FuelType fuel_type, uint number_of_doors = 4)
             : base(license_plate_number, color, model_year, fuel_type)
         { 
             this.number_of_doors = number_of_doors;
