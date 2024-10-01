@@ -14,5 +14,10 @@ namespace Garage.Models
         {
             this.length_size = length_size;
         }
+
+        public override string GetDescription()
+        {
+            return $"Length: {length_size}";
+        }
     }
 }

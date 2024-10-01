@@ -14,5 +14,10 @@ namespace Garage.Models
         {
             this.wings_span = wings_span;
         }
+
+        public override string GetDescription()
+        {
+            return $"Wings span: {wings_span}";
+        }
     }
 }

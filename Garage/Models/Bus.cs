@@ -14,5 +14,10 @@ namespace Garage.Models
         { 
             this.number_of_seats = number_of_seats;
         }
+
+        public override string GetDescription()
+        {
+            return $"Number of seats: {number_of_seats}";
+        }
     }
 }

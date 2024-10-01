@@ -15,5 +15,10 @@ namespace Garage.Models
         {
             this.engine_volume = engine_volume;
         }
+
+        public override string GetDescription()
+        {
+            return $"Engine volume: {engine_volume}";
+        }
     }
 }

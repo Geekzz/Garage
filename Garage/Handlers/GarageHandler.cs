@@ -40,5 +40,10 @@ namespace Garage.Handlers
             // leta vehicle som matchar nummerplåt
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Vehicle> GetGarage()
+        {
+            return garage;
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Garage.Interfaces
     internal interface IVechile
     {
         string LicensePlateNumber();
-        string Color();
+        string GetColor();
         uint GetModelYear();
         FuelType FuelType();
         string GetDescription();

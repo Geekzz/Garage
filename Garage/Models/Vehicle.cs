@@ -30,7 +30,7 @@ namespace Garage.Models
         }
 
         public string LicensePlateNumber() { return license_plate_number ?? string.Empty; }
-        public string Color() { return color ?? string.Empty; }
+        public string GetColor() { return color ?? string.Empty; }
         public FuelType FuelType() { return fuel_type; }
 
         public uint GetModelYear() { return model_year; }

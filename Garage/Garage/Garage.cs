@@ -36,19 +36,28 @@ namespace Garage.Garage
             return false;
         }
 
+
         public bool RemoveVehicle(string register_plate_number)
         {
-            for(int i = 0; i < count; i++)
+            for(int i = 0; i < capacity; i++)
             {
-                if (vehicles[i].LicensePlateNumber().ToLower() == register_plate_number.ToLower())
+                if (vehicles[i] != null)
                 {
-                    vehicles[i] = default;
-                    count--;
-                    return true;
+                    if (vehicles[i].LicensePlateNumber().ToLower() == register_plate_number.ToLower())
+                    {
+                        vehicles[i] = default;
+                        count--;
+                        return true;
+                    }
                 }
             }
 
             return false;
+        }
+
+        public uint GetCapacity()
+        {
+            return this.capacity;
         }
 
         public bool IsGarageFull()
@@ -63,6 +72,12 @@ namespace Garage.Garage
                 if(vehicle != null)
                     yield return vehicle;
             }
+        }
+
+        // Indexer to access vehicles directly by index
+        public T this[int index]
+        {
+            get => vehicles[index];
         }
 
         IEnumerator IEnumerable.GetEnumerator()

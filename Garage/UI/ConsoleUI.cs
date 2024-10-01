@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Garage.Garage;
 using Garage.Handlers;
 using Garage.Interfaces;
 using Garage.Models;
@@ -32,21 +33,40 @@ namespace Garage.UI
         }
         public static void DisplayGarageAdded(uint capacity)
         {
+            Console.Clear();
             Util.PrintSuccessTextColor($"New garage with capacity of {capacity} added!");
         }
 
         public static void GarageIsEmpty()
         {
+            Console.Clear();
             Util.PrintWarningTextColor("There is no garage, please create one first");
+        }
+
+        public static void RemoveSuccess()
+        {
+            Util.PrintSuccessTextColor("Vehicle removed successfully!");
         }
 
         public static void AddedToGarageSuccess(string vehicle)
         {
+            Console.Clear();
             Util.PrintSuccessTextColor($"{vehicle} have been added!");
+        }
+
+        public static string AskUserRegNum()
+        {
+            return Util.AskForString("Register plate number to remove: ");
+        }
+
+        public static void RemoveFailed()
+        {
+            Util.PrintWarningTextColor("Remove failed");
         }
 
         public static void GarageIsFull()
         {
+            Console.Clear();
             Util.PrintWarningTextColor("Garage is full!");
         }
 
@@ -135,5 +155,37 @@ namespace Garage.UI
                     break;
             }
         }
+
+        public static void DisplayAllVehicles(Garage<Vehicle> garage)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow; 
+
+            Console.WriteLine(
+                $"{"Vehicle Type",-15} {"License Plate",-20} {"Color",-10} {"Year",-6} {"Description",-20}");
+
+            Console.WriteLine(new string('-', 75)); // Separator line
+
+            // Loop through the garage's capacity to display all spots
+            for (int i = 0; i < garage.GetCapacity(); i++)
+            {
+                Vehicle vehicle = garage[i]; // Get the vehicle at the current index
+                if (vehicle != null)
+                {
+                    // Print the vehicle details if not null
+                    Console.WriteLine(
+                        $"{vehicle.GetType().Name,-15} {vehicle.LicensePlateNumber(),-20} {vehicle.GetColor(),-10} {vehicle.GetModelYear(),-6} {vehicle.GetDescription(),-20}");
+                }
+                else
+                {
+                    // Print empty spot indicator
+                    Console.WriteLine($"{"-empty-",-15} {"-empty-",-20} {"-empty-",-10} {"-empty-",-6} {"-empty-",-20}");
+                }
+            }
+
+            Console.ForegroundColor = ConsoleColor.Gray;  // Reset the text color to gray after printing
+            Console.WriteLine();  // Print a new line after the entire table
+        }
+
     }
 }

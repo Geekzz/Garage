@@ -42,6 +42,31 @@ namespace Garage
                             ConsoleUI.AskVehicleInfo(vehicle_type, garageHandler);
                             break;
                         }
+                    case 3:
+                        string reg_num = ConsoleUI.AskUserRegNum();
+                        if (garageHandler == null)
+                        {
+                            ConsoleUI.GarageIsEmpty();
+                            break;
+                        }
+                        if (garageHandler.RemoveVehicle(reg_num))
+                        {
+                            ConsoleUI.RemoveSuccess();
+                        }
+                        else
+                        {
+                            ConsoleUI.RemoveFailed();
+                            break;
+                        }
+                        break;
+                    case 4:
+                        if (garageHandler == null)
+                        {
+                            ConsoleUI.GarageIsEmpty();
+                            break;
+                        }
+                        ConsoleUI.DisplayAllVehicles((Garage.Garage<Vehicle>)garageHandler.GetGarage());
+                        break;
                 }
             }
         }
