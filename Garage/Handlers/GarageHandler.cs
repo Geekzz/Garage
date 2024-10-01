@@ -9,28 +9,28 @@ using System.Threading.Tasks;
 
 namespace Garage.Handlers
 {
-    internal class GarageHandler<T> : IHandler<T> where T : Vehicle
+    internal class GarageHandler
     {
-        private Garage<T> garage;
+        private Garage<Vehicle> garage;
 
-        public GarageHandler(int capacity)
+        public GarageHandler(uint capacity)
         {
             // ny garage med dess storlek
-            garage = new Garage<T>(capacity);
+            garage = new Garage<Vehicle>(capacity);
         }
-        public bool AddVehicle(T vehicle)
+        public bool AddVehicle(Vehicle vehicle)
         {
             throw new NotImplementedException();
         }
 
-        public T GetVehicle(string register_plate_number)
+        public bool RemoveVehicle(Vehicle vehicle)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Vehicle GetVehicle(string register_plate_number)
         {
             // leta vehicle som matchar nummerplåt
-            throw new NotImplementedException();
-        }
-
-        public bool RemoveVehicle(T vehicle)
-        {
             throw new NotImplementedException();
         }
     }

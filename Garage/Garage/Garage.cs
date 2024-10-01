@@ -11,10 +11,10 @@ namespace Garage.Garage
     internal class Garage<T>: IEnumerable<T> where T : Vehicle
     {
         private T[] vehicles;
-        private int capacity;
-        private int count = 0;
+        private uint capacity;
+        private uint count = 0;
 
-        public Garage(int capacity)
+        public Garage(uint capacity)
         {
             this.capacity = capacity;
             vehicles = new T[capacity];
