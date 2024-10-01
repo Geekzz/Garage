@@ -18,10 +18,8 @@ namespace Garage
                 case 1:
                     uint door_num = ConsoleUI.AskNumberOfDoors();
                     Vehicle vh = new Car(license_num, color, model_year, FuelType.Diesel, door_num);
-                    if (garageHandler.AddVehicle(vh))
-                        ConsoleUI.AddedToGarageSuccess("Car");
-                    else
-                        ConsoleUI.GarageIsFull();
+                    garageHandler.AddVehicle(vh);
+                    ConsoleUI.AddedToGarageSuccess("Car");
                     break;
             }
         }
@@ -48,6 +46,11 @@ namespace Garage
                         if(garageHandler == null)
                         {
                             ConsoleUI.GarageIsEmpty();
+                            break;
+                        }
+                        else if (garageHandler.GarageFull())
+                        {
+                            ConsoleUI.GarageIsFull();
                             break;
                         }
                         else

@@ -18,6 +18,7 @@ namespace Garage.Garage
         {
             this.capacity = capacity;
             vehicles = new T[capacity];
+            count = 0;
         }
 
         public bool AddVehicle(T vehicle)
@@ -48,6 +49,11 @@ namespace Garage.Garage
             }
 
             return false;
+        }
+
+        public bool IsGarageFull()
+        {
+            return count >= capacity;
         }
 
         public IEnumerator<T> GetEnumerator()

@@ -14,10 +14,6 @@ namespace Garage.Handlers
     {
         private Garage<Vehicle> garage;
 
-        public GarageHandler()
-        {
-
-        }
         public GarageHandler(uint capacity)
         {
             // ny garage med dess storlek
@@ -32,6 +28,11 @@ namespace Garage.Handlers
         public bool RemoveVehicle(string register_plate_number)
         {
             return garage.RemoveVehicle(register_plate_number);
+        }
+
+        public bool GarageFull()
+        {
+            return garage.IsGarageFull();
         }
 
         public Vehicle GetVehicle(string register_plate_number)
