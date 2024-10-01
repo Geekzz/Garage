@@ -20,6 +20,37 @@ namespace Garage.Garage
             vehicles = new T[capacity];
         }
 
+        public bool AddVehicle(T vehicle)
+        {
+            for(int i = 0; i < capacity; i++)
+            {
+                if(vehicles[i] == null)
+                {
+                    vehicles[i] = vehicle;
+                    count++;
+                    Console.WriteLine($"{vehicle} have been added to the garage.");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool RemoveVehicle(string register_plate_number)
+        {
+            for(int i = 0; i < count; i++)
+            {
+                if (vehicles[i].LicensePlateNumber().ToLower() == register_plate_number.ToLower())
+                {
+                    vehicles[i] = default;
+                    count--;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             foreach(var vehicle in vehicles)

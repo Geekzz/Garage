@@ -1,4 +1,6 @@
-﻿using Garage.Models;
+﻿using Garage.Handlers;
+using Garage.Models;
+using Garage.UI;
 
 namespace Garage
 {
@@ -6,10 +8,29 @@ namespace Garage
     {
         static void Main(string[] args)
         {
-            //Vehicle vh = new Car("4XFP34", "Red", 1985, FuelType.Gas, 2);
-            //Vehicle vh2 = new Boat("4S4GP8", "Blue", 1987, FuelType.Electric);
-            //Console.WriteLine(vh.GetDescription());
-            //Console.WriteLine(vh2.GetDescription());
+            bool flag = true;
+            GarageHandler garageHandler;
+
+            while (flag)
+            {
+                ConsoleUI.DisplayMenu();
+                string? input = Console.ReadLine();
+
+                switch (input)
+                {
+                    case "0":
+                        flag = false;
+                        break;
+                    case "1":
+                        ConsoleUI.AskGarageSize();
+                        uint size = uint.Parse(Console.ReadLine());
+                        garageHandler = new GarageHandler(size);
+                        break;
+                    case "2":
+                        ConsoleUI.AskVehicleType();
+                        break;
+                }
+            }
         }
     }
 }

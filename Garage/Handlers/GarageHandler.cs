@@ -1,6 +1,7 @@
 ﻿using Garage.Garage;
 using Garage.Interfaces;
 using Garage.Models;
+using Garage.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,15 +18,16 @@ namespace Garage.Handlers
         {
             // ny garage med dess storlek
             garage = new Garage<Vehicle>(capacity);
+            ConsoleUI.DisplayGarageAdded(capacity);
         }
         public bool AddVehicle(Vehicle vehicle)
         {
-            throw new NotImplementedException();
+            return garage.AddVehicle(vehicle);
         }
 
-        public bool RemoveVehicle(Vehicle vehicle)
+        public bool RemoveVehicle(string register_plate_number)
         {
-            throw new NotImplementedException();
+            return garage.RemoveVehicle(register_plate_number);
         }
 
         public Vehicle GetVehicle(string register_plate_number)
