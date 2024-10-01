@@ -22,9 +22,10 @@ namespace Garage.Garage
 
         public IEnumerator<T> GetEnumerator()
         {
-            for(int i = 0; i < count; i++)
+            foreach(var vehicle in vehicles)
             {
-                yield return vehicles[i];
+                if(vehicle != null)
+                    yield return vehicle;
             }
         }
 
