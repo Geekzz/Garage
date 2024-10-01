@@ -18,6 +18,7 @@ namespace Garage.UI
             Console.WriteLine("1. Create garage");
             Console.WriteLine("2. Add vehicle to the garage");
             Console.WriteLine("3. Remove vehicle from the garage");
+            Console.WriteLine("4. Display all vehicles from the garage");
         }
 
         public static uint AskMenuOption()
@@ -93,18 +94,18 @@ namespace Garage.UI
 
         public static void AskVehicleInfo(uint vehicle, GarageHandler garageHandler)
         {
-            string license_num = ConsoleUI.AskLicensePlateNum();
-            string color = ConsoleUI.AskVehicleColor();
-            string fuel_type = ConsoleUI.AskFuelType();
-            uint model_year = ConsoleUI.AskModelYear();
+            string license_num = AskLicensePlateNum();
+            string color = AskVehicleColor();
+            string fuel_type = AskFuelType();
+            uint model_year = AskModelYear();
 
             switch (vehicle)
             {
                 case 1:
-                    uint door_num = ConsoleUI.AskNumberOfDoors();
+                    uint door_num = AskNumberOfDoors();
                     Vehicle vh = new Car(license_num, color, model_year, FuelType.Diesel, door_num);
                     garageHandler.AddVehicle(vh);
-                    ConsoleUI.AddedToGarageSuccess("Car");
+                    AddedToGarageSuccess("Car");
                     break;
             }
         }
