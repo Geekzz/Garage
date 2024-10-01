@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Garage.Handlers;
 using Garage.Interfaces;
+using Garage.Models;
 using Garage.Utils;
 
 namespace Garage.UI
@@ -87,6 +89,24 @@ namespace Garage.UI
         public static uint AskNumberOfDoors()
         {
             return Util.AskForUInt("Enter number of doors: ");
+        }
+
+        public static void AskVehicleInfo(uint vehicle, GarageHandler garageHandler)
+        {
+            string license_num = ConsoleUI.AskLicensePlateNum();
+            string color = ConsoleUI.AskVehicleColor();
+            string fuel_type = ConsoleUI.AskFuelType();
+            uint model_year = ConsoleUI.AskModelYear();
+
+            switch (vehicle)
+            {
+                case 1:
+                    uint door_num = ConsoleUI.AskNumberOfDoors();
+                    Vehicle vh = new Car(license_num, color, model_year, FuelType.Diesel, door_num);
+                    garageHandler.AddVehicle(vh);
+                    ConsoleUI.AddedToGarageSuccess("Car");
+                    break;
+            }
         }
     }
 }
