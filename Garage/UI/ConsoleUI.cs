@@ -99,13 +99,39 @@ namespace Garage.UI
             string fuel_type = AskFuelType();
             uint model_year = AskModelYear();
 
+            Vehicle? vh = null; 
+
             switch (vehicle)
             {
                 case 1:
                     uint door_num = AskNumberOfDoors();
-                    Vehicle vh = new Car(license_num, color, model_year, FuelType.Diesel, door_num);
+                    vh = new Car(license_num, color, model_year, FuelType.Diesel, door_num);
                     garageHandler.AddVehicle(vh);
                     AddedToGarageSuccess("Car");
+                    break;
+                case 2:
+                    uint engine_volume = Util.AskForUInt("Enter engine volume (e.g. 600): ");
+                    vh = new Motorcycle(license_num, color, model_year, FuelType.Gas, engine_volume);
+                    garageHandler.AddVehicle(vh);
+                    AddedToGarageSuccess("Motorcycle");
+                    break;
+                case 3:
+                    uint boat_length = Util.AskForUInt("Enter length of the boat: ");
+                    vh = new Boat(license_num, color, model_year, FuelType.Diesel,  boat_length);
+                    garageHandler.AddVehicle(vh);
+                    AddedToGarageSuccess("Boat");
+                    break;
+                case 4:
+                    uint seats_num = Util.AskForUInt("Enter number of passenger seats: ");
+                    vh = new Bus(license_num, color, model_year, FuelType.Gas, seats_num);
+                    garageHandler.AddVehicle(vh);
+                    AddedToGarageSuccess("Bus");
+                    break;
+                case 5:
+                    uint wings_span = Util.AskForUInt("Enter wings span length: ");
+                    vh = new Airplane(license_num, color, model_year, FuelType.Gas, wings_span);
+                    garageHandler.AddVehicle(vh);
+                    AddedToGarageSuccess("Airplane");
                     break;
             }
         }

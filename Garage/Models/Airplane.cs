@@ -8,10 +8,11 @@ namespace Garage.Models
 {
     internal class Airplane: Vehicle
     {
-        public Airplane(string license_plate_number, string color, uint model_year, FuelType fuel_type) 
+        private uint wings_span;
+        public Airplane(string license_plate_number, string color, uint model_year, FuelType fuel_type, uint wings_span) 
             : base(license_plate_number, color, model_year, fuel_type)
         {
-
+            this.wings_span = wings_span;
         }
     }
 }
