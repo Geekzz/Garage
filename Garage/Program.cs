@@ -66,7 +66,7 @@ namespace Garage
                             break;
                         }
 
-                        ConsoleUI.DisplayAllVehicles((Garage.Garage<Vehicle>)garageHandler.GetGarage());
+                        ConsoleUI.DisplayAllVehicles(garageHandler);
                         break;
                 }
             }

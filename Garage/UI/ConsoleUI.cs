@@ -156,23 +156,24 @@ namespace Garage.UI
             }
         }
 
-        public static void DisplayAllVehicles(Garage<Vehicle> garage)
+        public static void DisplayAllVehicles(GarageHandler garageHandler)
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
 
+            // Print table headers
             Console.WriteLine(
                 $"{"Vehicle Type",-15} {"License Plate",-20} {"Color",-10} {"Year",-6} {"Description",-20}");
 
-            Console.WriteLine(new string('-', 75)); // Separator line
+            Console.WriteLine(new string('-', 90)); // Separator line
 
-            // Loop through using the enumerator instead of the indexer
-            var enumerator = garage.GetEnumerator();
+            // Get all vehicles from the garage
+            var vehicles = garageHandler.GetGarage();
             int index = 0;
 
-            while (enumerator.MoveNext())
+            // Loop through using the enumerator
+            foreach (var vehicle in vehicles)
             {
-                var vehicle = enumerator.Current;
                 if (vehicle != null)
                 {
                     // Print the vehicle details if not null
@@ -187,9 +188,21 @@ namespace Garage.UI
                 index++;
             }
 
+            // Print separator line after the vehicle list
+            Console.WriteLine(new string('-', 90));
+
+            // Get vehicle type counts from GarageHandler
+            var vehicleTypeCounts = garageHandler.GetVehiclesTypes();
+
+            // Display vehicle type counts below the table
+            Console.WriteLine("Vehicle Type Summary:");
+            foreach (var kvp in vehicleTypeCounts)
+            {
+                Console.WriteLine($"{kvp.Key}: {kvp.Value}"); // Display type and its count
+            }
+
             Console.ForegroundColor = ConsoleColor.Gray; // Reset the text color to gray after printing
             Console.WriteLine(); // Print a new line after the entire table
         }
-
     }
 }

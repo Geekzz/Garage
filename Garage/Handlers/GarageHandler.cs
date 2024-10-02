@@ -46,9 +46,25 @@ namespace Garage.Handlers
             return garage;
         }
 
-        public IEnumerator<Vehicle> GetGarageEnumerator()
+        public Dictionary<string, int> GetVehiclesTypes()
         {
-            return garage.GetEnumerator();
+            Dictionary<string, int> vehicles_dic = new Dictionary<string, int>();
+
+            foreach (Vehicle vehicle in garage)
+            {
+                // Check if the vehicle is not null to prevent error
+                if (vehicle != null)
+                {
+                    var vehicle_type = vehicle.GetType().Name;
+                    if (vehicles_dic.ContainsKey(vehicle_type))
+                        vehicles_dic[vehicle_type]++;
+                    else
+                        vehicles_dic[vehicle_type] = 1;
+                }
+            }
+
+            return vehicles_dic;
         }
+
     }
 }
