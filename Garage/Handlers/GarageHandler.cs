@@ -66,5 +66,21 @@ namespace Garage.Handlers
             return vehicles_dic;
         }
 
+        public IEnumerable<Vehicle> SearchVehicles(string input)
+        {
+            // Split the input by spaces to get individual search terms
+            var searchTerms = input.Split(" ");
+
+            // Use LINQ to filter vehicles based on the search terms
+            var matchingVehicles = garage
+                .Where(vehicle => vehicle != null &&
+                                 searchTerms.Any(term =>
+                                     vehicle.GetColor().Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                                     vehicle.LicensePlateNumber().Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                                     vehicle.GetDescription().Contains(term, StringComparison.OrdinalIgnoreCase)))
+                .ToList();
+
+            return matchingVehicles; // Return the matching vehicles
+        }
     }
 }

@@ -20,6 +20,7 @@ namespace Garage.UI
             Console.WriteLine("2. Add vehicle to the garage");
             Console.WriteLine("3. Remove vehicle from the garage");
             Console.WriteLine("4. Display all vehicles from the garage");
+            Console.WriteLine("5. Search for vehicles based on information");
         }
 
         public static uint AskMenuOption()
@@ -161,6 +162,9 @@ namespace Garage.UI
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
 
+            Console.WriteLine("Garage information:");
+            Console.WriteLine(new string('-', 90)); // Separator line
+
             // Print table headers
             Console.WriteLine(
                 $"{"Vehicle Type",-15} {"License Plate",-20} {"Color",-10} {"Year",-6} {"Description",-20}");
@@ -203,6 +207,46 @@ namespace Garage.UI
 
             Console.ForegroundColor = ConsoleColor.Gray; // Reset the text color to gray after printing
             Console.WriteLine(); // Print a new line after the entire table
+        }
+
+        public static string AskUserForSearchVehicles()
+        {
+            return Util.AskForString("Enter your search criteria for vehicles (e.g., color, license plate, etc.): ");
+        }
+
+        public static void DisplaySearchedVehicles(IEnumerable<Vehicle> vehicles)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            Console.WriteLine(
+                $"{"Vehicle Type",-15} {"License Plate",-20} {"Color",-10} {"Year",-6} {"Description",-20}");
+
+            Console.WriteLine(new string('-', 90)); // Separator line
+
+            // Loop through the vehicles to display their details
+            foreach (var vehicle in vehicles)
+            {
+                if (vehicle != null)
+                {
+                    // Print the vehicle details if not null
+                    Console.WriteLine(
+                        $"{vehicle.GetType().Name,-15} {vehicle.LicensePlateNumber(),-20} {vehicle.GetColor(),-10} {vehicle.GetModelYear(),-6} {vehicle.GetDescription(),-20}");
+                }
+                else
+                {
+                    // Print empty spot indicator for consistency in case the list has empty slots
+                    Console.WriteLine($"{"-empty-",-15} {"-empty-",-20} {"-empty-",-10} {"-empty-",-6} {"-empty-",-20}");
+                }
+            }
+
+            Console.ForegroundColor = ConsoleColor.Gray; // Reset the text color to gray after printing
+            Console.WriteLine(); // Print a new line after the entire table
+        }
+
+        public static void NoSearchedVehiclesFound()
+        {
+            Util.PrintWarningTextColor("No vehicles found matching the search criteria");
         }
     }
 }

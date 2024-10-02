@@ -68,6 +68,26 @@ namespace Garage
 
                         ConsoleUI.DisplayAllVehicles(garageHandler);
                         break;
+
+                    case 5:
+                        if (garageHandler == null)
+                        {
+                            ConsoleUI.GarageIsEmpty();
+                            break;
+                        }
+
+                        string search_input = ConsoleUI.AskUserForSearchVehicles();
+                        var result = garageHandler?.SearchVehicles(search_input);
+
+                        if (result != null)
+                        {
+                            ConsoleUI.DisplaySearchedVehicles(result);
+                        }
+                        else
+                        {
+                            ConsoleUI.NoSearchedVehiclesFound();
+                        }
+                        break;
                 }
             }
         }
