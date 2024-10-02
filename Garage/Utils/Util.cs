@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Garage.Utils
 {
-    internal class Util
+    public class Util
     {
         public static void PrintWarningTextColor(string prompt)
         {
@@ -56,6 +57,25 @@ namespace Garage.Utils
                 PrintWarningTextColor("Invalid input type, please enter numeric input");
 
             } while(true);
+        }
+
+        public static string AskForRegPlateNumber(string prompt)
+        {
+            string patterns = "^[A-Z]{3}[0-9]{3}";
+            Regex regex = new Regex(patterns);
+            string input;
+
+            do
+            {
+                input = AskForString(prompt).ToUpper();
+
+                if (!regex.IsMatch(input))
+                    PrintWarningTextColor("Invalid register plate number format, please enter 3 letters followed by 3 numbers");
+                else
+                    break;
+            } while (true);
+
+            return input;
         }
     }
 }

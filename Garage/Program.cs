@@ -43,7 +43,7 @@ namespace Garage
                             break;
                         }
                     case 3:
-                        string reg_num = ConsoleUI.AskForStringInput("Enter license number, e.g. ABC444: ");
+                        string reg_num = ConsoleUI.AskForRegNum("Enter license number, e.g. ABC444: ");
                         if (garageHandler == null)
                         {
                             ConsoleUI.DisplayWarningMessage("There is no garage, please create one first");

@@ -33,6 +33,11 @@ namespace Garage.UI
             return Util.AskForString(prompt);
         }
 
+        public static string AskForRegNum(string prompt)
+        {
+            return Util.AskForRegPlateNumber(prompt);
+        }
+
         public static void DisplaySuccessMessage(string message)
         {
             Console.Clear();
@@ -64,7 +69,7 @@ namespace Garage.UI
 
         public static void AskVehicleInfo(uint vehicle, GarageHandler garageHandler)
         {
-            string license_num = Util.AskForString("Enter license number, e.g. ABC444: ");
+            string license_num = Util.AskForRegPlateNumber("Enter license number, e.g. ABC444: ");
             string color = Util.AskForString("Enter color (e.g. Blue): ");
             string fuel_type = Util.AskForString("Enter fuel type (Gas, Diesel, or Electric): ");
             uint model_year = Util.AskForUInt("Enter model year: ");
