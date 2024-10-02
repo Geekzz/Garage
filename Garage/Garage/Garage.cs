@@ -8,18 +8,13 @@ using System.Threading.Tasks;
 
 namespace Garage.Garage
 {
-    internal class Garage<T>: IEnumerable<T> where T : Vehicle
+    internal class Garage<T>(uint capacity) : IEnumerable<T> where T : Vehicle
     {
-        private T[] vehicles;
-        private uint capacity;
-        private uint count = 0;
-
-        public Garage(uint capacity)
-        {
-            this.capacity = capacity;
-            vehicles = new T[capacity];
-            count = 0;
-        }
+        // Readonly = makes sure it cannot be changed with method
+        // Reference: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/readonly
+        private readonly T[] vehicles = new T[capacity];
+        private readonly uint capacity = capacity;
+        private uint count = 0; // Count = how many vehicles are in garage, so readonly isnt needed here
 
         public bool AddVehicle(T vehicle)
         {

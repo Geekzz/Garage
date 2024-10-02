@@ -12,11 +12,11 @@ namespace Garage.Handlers
 {
     internal class GarageHandler: IHandler<Vehicle>
     {
-        private Garage<Vehicle> garage;
+        private readonly Garage<Vehicle> garage;
 
         public GarageHandler(uint capacity)
         {
-            // ny garage med dess storlek
+            // Create new Garage with its fixed capacity size
             garage = new Garage<Vehicle>(capacity);
             ConsoleUI.DisplaySuccessMessage($"Garage with capacity of {capacity} added successfully");
         }
@@ -42,7 +42,7 @@ namespace Garage.Handlers
 
         public Dictionary<string, int> GetVehiclesTypes()
         {
-            Dictionary<string, int> vehicles_dic = new Dictionary<string, int>();
+            Dictionary<string, int> vehicles_dic = [];
 
             foreach (Vehicle vehicle in garage)
             {
@@ -50,8 +50,8 @@ namespace Garage.Handlers
                 if (vehicle != null)
                 {
                     var vehicle_type = vehicle.GetType().Name;
-                    if (vehicles_dic.ContainsKey(vehicle_type))
-                        vehicles_dic[vehicle_type]++;
+                    if (vehicles_dic.TryGetValue(vehicle_type, out int value))
+                        vehicles_dic[vehicle_type] = ++value;
                     else
                         vehicles_dic[vehicle_type] = 1;
                 }
