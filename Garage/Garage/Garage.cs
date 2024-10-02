@@ -69,15 +69,9 @@ namespace Garage.Garage
         {
             foreach(var vehicle in vehicles)
             {
-                if(vehicle != null)
-                    yield return vehicle;
+                //if(vehicle != null)
+                yield return vehicle;
             }
-        }
-
-        // Indexer to access vehicles directly by index
-        public T this[int index]
-        {
-            get => vehicles[index];
         }
 
         IEnumerator IEnumerable.GetEnumerator()

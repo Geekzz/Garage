@@ -159,17 +159,20 @@ namespace Garage.UI
         public static void DisplayAllVehicles(Garage<Vehicle> garage)
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Yellow; 
+            Console.ForegroundColor = ConsoleColor.Yellow;
 
             Console.WriteLine(
                 $"{"Vehicle Type",-15} {"License Plate",-20} {"Color",-10} {"Year",-6} {"Description",-20}");
 
             Console.WriteLine(new string('-', 75)); // Separator line
 
-            // Loop through the garage's capacity to display all spots
-            for (int i = 0; i < garage.GetCapacity(); i++)
+            // Loop through using the enumerator instead of the indexer
+            var enumerator = garage.GetEnumerator();
+            int index = 0;
+
+            while (enumerator.MoveNext())
             {
-                Vehicle vehicle = garage[i]; // Get the vehicle at the current index
+                var vehicle = enumerator.Current;
                 if (vehicle != null)
                 {
                     // Print the vehicle details if not null
@@ -178,13 +181,14 @@ namespace Garage.UI
                 }
                 else
                 {
-                    // Print empty spot indicator
+                    // Print empty spot indicator for consistency in case garage has empty slots
                     Console.WriteLine($"{"-empty-",-15} {"-empty-",-20} {"-empty-",-10} {"-empty-",-6} {"-empty-",-20}");
                 }
+                index++;
             }
 
-            Console.ForegroundColor = ConsoleColor.Gray;  // Reset the text color to gray after printing
-            Console.WriteLine();  // Print a new line after the entire table
+            Console.ForegroundColor = ConsoleColor.Gray; // Reset the text color to gray after printing
+            Console.WriteLine(); // Print a new line after the entire table
         }
 
     }

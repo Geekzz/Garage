@@ -45,5 +45,10 @@ namespace Garage.Handlers
         {
             return garage;
         }
+
+        public IEnumerator<Vehicle> GetGarageEnumerator()
+        {
+            return garage.GetEnumerator();
+        }
     }
 }
