@@ -69,6 +69,7 @@ namespace Garage.Garage
         {
             foreach(var vehicle in vehicles)
             {
+                // Skipping checking if vehicle is null because its nicer to display all available park seats
                 //if(vehicle != null)
                 yield return vehicle;
             }

@@ -77,8 +77,12 @@ namespace Garage.Handlers
                                  searchTerms.Any(term =>
                                      vehicle.GetColor().Contains(term, StringComparison.OrdinalIgnoreCase) ||
                                      vehicle.LicensePlateNumber().Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                                     vehicle.GetDescription().Contains(term, StringComparison.OrdinalIgnoreCase)))
+                                     vehicle.GetDescription().Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                                     vehicle.GetModelYear().ToString().Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                                     Enum.GetName(typeof(FuelType), vehicle.FuelType()).Equals(term, StringComparison.OrdinalIgnoreCase) ||
+                                     vehicle.GetType().Name.Contains(term, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
+
 
             return matchingVehicles; // Return the matching vehicles
         }

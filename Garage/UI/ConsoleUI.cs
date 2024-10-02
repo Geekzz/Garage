@@ -167,13 +167,17 @@ namespace Garage.UI
 
             // Print table headers
             Console.WriteLine(
-                $"{"Vehicle Type",-15} {"License Plate",-20} {"Color",-10} {"Year",-6} {"Description",-20}");
+                $"{"Vehicle Type",-15} " +
+                $"{"License Plate",-20} " +
+                $"{"Color",-10} " +
+                $"{"Year",-6} " +
+                $"{"Description",-20} " +
+                $"{"Fuel Type",-10}"); 
 
             Console.WriteLine(new string('-', 90)); // Separator line
 
             // Get all vehicles from the garage
             var vehicles = garageHandler.GetGarage();
-            int index = 0;
 
             // Loop through using the enumerator
             foreach (var vehicle in vehicles)
@@ -182,14 +186,24 @@ namespace Garage.UI
                 {
                     // Print the vehicle details if not null
                     Console.WriteLine(
-                        $"{vehicle.GetType().Name,-15} {vehicle.LicensePlateNumber(),-20} {vehicle.GetColor(),-10} {vehicle.GetModelYear(),-6} {vehicle.GetDescription(),-20}");
+                        $"{vehicle.GetType().Name,-15} " +
+                        $"{vehicle.LicensePlateNumber(),-20} " +
+                        $"{vehicle.GetColor(),-10} " +
+                        $"{vehicle.GetModelYear(),-6} " +
+                        $"{vehicle.GetDescription(),-20} " +
+                        $"{vehicle.FuelType(),-10}"); 
                 }
                 else
                 {
                     // Print empty spot indicator for consistency in case garage has empty slots
-                    Console.WriteLine($"{"-empty-",-15} {"-empty-",-20} {"-empty-",-10} {"-empty-",-6} {"-empty-",-20}");
+                    Console.WriteLine(
+                        $"{"-empty-",-15} " +
+                        $"{"-empty-",-20} " +
+                        $"{"-empty-",-10} " +
+                        $"{"-empty-",-6} " +
+                        $"{"-empty-",-20} " +
+                        $"{"-empty-",-10}"); // Added empty spot for Fuel Type
                 }
-                index++;
             }
 
             // Print separator line after the vehicle list
@@ -209,8 +223,10 @@ namespace Garage.UI
             Console.WriteLine(); // Print a new line after the entire table
         }
 
+
         public static string AskUserForSearchVehicles()
         {
+            Util.PrintSuccessTextColor("\nNote: You can use spaces to separate multiple search terms");
             return Util.AskForString("Enter your search criteria for vehicles (e.g., color, license plate, etc.): ");
         }
 
@@ -220,7 +236,12 @@ namespace Garage.UI
             Console.ForegroundColor = ConsoleColor.Yellow;
 
             Console.WriteLine(
-                $"{"Vehicle Type",-15} {"License Plate",-20} {"Color",-10} {"Year",-6} {"Description",-20}");
+                $"{"Vehicle Type",-15} " +
+                $"{"License Plate",-20} " +
+                $"{"Color",-10} " +
+                $"{"Year",-6} " +
+                $"{"Description",-20} " +
+                $"{"Fuel Type",-10}");
 
             Console.WriteLine(new string('-', 90)); // Separator line
 
@@ -231,12 +252,22 @@ namespace Garage.UI
                 {
                     // Print the vehicle details if not null
                     Console.WriteLine(
-                        $"{vehicle.GetType().Name,-15} {vehicle.LicensePlateNumber(),-20} {vehicle.GetColor(),-10} {vehicle.GetModelYear(),-6} {vehicle.GetDescription(),-20}");
+                        $"{vehicle.GetType().Name,-15} " +
+                        $"{vehicle.LicensePlateNumber(),-20} " +
+                        $"{vehicle.GetColor(),-10} " +
+                        $"{vehicle.GetModelYear(),-6} " +
+                        $"{vehicle.GetDescription(),-20} " +
+                        $"{vehicle.FuelType(),-10}"); 
                 }
                 else
                 {
                     // Print empty spot indicator for consistency in case the list has empty slots
-                    Console.WriteLine($"{"-empty-",-15} {"-empty-",-20} {"-empty-",-10} {"-empty-",-6} {"-empty-",-20}");
+                    Console.WriteLine(
+                        $"{"-empty-",-15} " +
+                        $"{"-empty-",-20} " +
+                        $"{"-empty-",-10} " +
+                        $"{"-empty-",-6} " +
+                        $"{"-empty-",-20}");
                 }
             }
 
