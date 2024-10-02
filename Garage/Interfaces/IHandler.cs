@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Garage.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,10 @@ namespace Garage.Interfaces
     internal interface IHandler<T>
     {
         bool AddVehicle(T vehicle);
-        bool RemoveVehicle(T vehicle);
-        T GetVehicle(string register_plate_number);
+        bool RemoveVehicle(string register_plate_number);
+        bool GarageFull();
+        public IEnumerable<Vehicle> GetGarage();
+        public Dictionary<string, int> GetVehiclesTypes();
+        public IEnumerable<Vehicle> SearchVehicles(string input);
     }
 }

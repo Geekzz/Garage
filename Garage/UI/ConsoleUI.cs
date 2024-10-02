@@ -23,52 +23,26 @@ namespace Garage.UI
             Console.WriteLine("5. Search for vehicles based on information");
         }
 
-        public static uint AskMenuOption()
+        public static uint AskForUIntInput(string prompt)
         {
-            return Util.AskForUInt("Menu option: ");
+            return Util.AskForUInt(prompt);
         }
 
-        public static uint AskGarageSize()
+        public static string AskForStringInput(string prompt)
         {
-            return Util.AskForUInt("Enter garage's capacity: ");
+            return Util.AskForString(prompt);
         }
-        public static void DisplayGarageAdded(uint capacity)
+
+        public static void DisplaySuccessMessage(string message)
         {
             Console.Clear();
-            Util.PrintSuccessTextColor($"New garage with capacity of {capacity} added!");
+            Util.PrintSuccessTextColor(message);
         }
 
-        public static void GarageIsEmpty()
+        public static void DisplayWarningMessage(string message)
         {
             Console.Clear();
-            Util.PrintWarningTextColor("There is no garage, please create one first");
-        }
-
-        public static void RemoveSuccess()
-        {
-            Util.PrintSuccessTextColor("Vehicle removed successfully!");
-        }
-
-        public static void AddedToGarageSuccess(string vehicle)
-        {
-            Console.Clear();
-            Util.PrintSuccessTextColor($"{vehicle} have been added!");
-        }
-
-        public static string AskUserRegNum()
-        {
-            return Util.AskForString("Register plate number to remove: ");
-        }
-
-        public static void RemoveFailed()
-        {
-            Util.PrintWarningTextColor("Remove failed");
-        }
-
-        public static void GarageIsFull()
-        {
-            Console.Clear();
-            Util.PrintWarningTextColor("Garage is full!");
+            Util.PrintWarningTextColor(message);
         }
 
         public static uint AskVehicleType()
@@ -88,71 +62,46 @@ namespace Garage.UI
             }
         }
 
-        public static string AskLicensePlateNum()
-        {
-            return Util.AskForString("Enter license number, e.g. ABC444: ");
-        }
-
-        public static string AskVehicleColor()
-        {
-            return Util.AskForString("Enter color (e.g. Blue): ");
-        }
-
-        public static string AskFuelType()
-        {
-            return Util.AskForString("Enter fuel type (Gas, Diesel, or Electric): ");
-        }
-
-        public static uint AskModelYear()
-        {
-            return Util.AskForUInt("Enter model year: ");
-        }
-
-        public static uint AskNumberOfDoors()
-        {
-            return Util.AskForUInt("Enter number of doors: ");
-        }
-
         public static void AskVehicleInfo(uint vehicle, GarageHandler garageHandler)
         {
-            string license_num = AskLicensePlateNum();
-            string color = AskVehicleColor();
-            string fuel_type = AskFuelType();
-            uint model_year = AskModelYear();
+            string license_num = Util.AskForString("Enter license number, e.g. ABC444: ");
+            string color = Util.AskForString("Enter color (e.g. Blue): ");
+            string fuel_type = Util.AskForString("Enter fuel type (Gas, Diesel, or Electric): ");
+            uint model_year = Util.AskForUInt("Enter model year: ");
 
             Vehicle? vh = null; 
 
             switch (vehicle)
             {
                 case 1:
-                    uint door_num = AskNumberOfDoors();
+                    uint door_num = Util.AskForUInt("Enter number of doors: ");
                     vh = new Car(license_num, color, model_year, FuelType.Diesel, door_num);
                     garageHandler.AddVehicle(vh);
-                    AddedToGarageSuccess("Car");
+                    DisplaySuccessMessage("Car added successfully!");
                     break;
                 case 2:
                     uint engine_volume = Util.AskForUInt("Enter engine volume (e.g. 600): ");
                     vh = new Motorcycle(license_num, color, model_year, FuelType.Gas, engine_volume);
                     garageHandler.AddVehicle(vh);
-                    AddedToGarageSuccess("Motorcycle");
+                    DisplaySuccessMessage("Motorcycle added successfully!");
                     break;
                 case 3:
                     uint boat_length = Util.AskForUInt("Enter length of the boat: ");
                     vh = new Boat(license_num, color, model_year, FuelType.Diesel,  boat_length);
                     garageHandler.AddVehicle(vh);
-                    AddedToGarageSuccess("Boat");
+                    DisplaySuccessMessage("Boat added successfully!");
                     break;
                 case 4:
                     uint seats_num = Util.AskForUInt("Enter number of passenger seats: ");
                     vh = new Bus(license_num, color, model_year, FuelType.Gas, seats_num);
                     garageHandler.AddVehicle(vh);
-                    AddedToGarageSuccess("Bus");
+                    DisplaySuccessMessage("Bus added successfully!");
                     break;
                 case 5:
                     uint wings_span = Util.AskForUInt("Enter wings span length: ");
                     vh = new Airplane(license_num, color, model_year, FuelType.Gas, wings_span);
                     garageHandler.AddVehicle(vh);
-                    AddedToGarageSuccess("Airplane");
+                    DisplaySuccessMessage("Airplane added successfully!");
                     break;
             }
         }
@@ -273,11 +222,6 @@ namespace Garage.UI
 
             Console.ForegroundColor = ConsoleColor.Gray; // Reset the text color to gray after printing
             Console.WriteLine(); // Print a new line after the entire table
-        }
-
-        public static void NoSearchedVehiclesFound()
-        {
-            Util.PrintWarningTextColor("No vehicles found matching the search criteria");
         }
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Handlers
 {
-    internal class GarageHandler
+    internal class GarageHandler: IHandler<Vehicle>
     {
         private Garage<Vehicle> garage;
 
@@ -18,7 +18,7 @@ namespace Garage.Handlers
         {
             // ny garage med dess storlek
             garage = new Garage<Vehicle>(capacity);
-            ConsoleUI.DisplayGarageAdded(capacity);
+            ConsoleUI.DisplaySuccessMessage($"Garage with capacity of {capacity} added successfully");
         }
         public bool AddVehicle(Vehicle vehicle)
         {
@@ -33,12 +33,6 @@ namespace Garage.Handlers
         public bool GarageFull()
         {
             return garage.IsGarageFull();
-        }
-
-        public Vehicle GetVehicle(string register_plate_number)
-        {
-            // leta vehicle som matchar nummerplåt
-            throw new NotImplementedException();
         }
 
         public IEnumerable<Vehicle> GetGarage()

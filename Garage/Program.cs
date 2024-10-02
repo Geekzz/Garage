@@ -14,7 +14,7 @@ namespace Garage
             while (flag)
             {
                 ConsoleUI.DisplayMenu();
-                uint input = ConsoleUI.AskMenuOption();
+                uint input = ConsoleUI.AskForUIntInput("Menu option: ");
 
                 switch (input)
                 {
@@ -22,18 +22,18 @@ namespace Garage
                         flag = false;
                         break;
                     case 1:
-                        uint size = ConsoleUI.AskGarageSize();
+                        uint size = ConsoleUI.AskForUIntInput("Enter garage's capacity: ");
                         garageHandler = new GarageHandler(size);
                         break;
                     case 2:
                         if(garageHandler == null)
                         {
-                            ConsoleUI.GarageIsEmpty();
+                            ConsoleUI.DisplayWarningMessage("There is no garage, please create one first");
                             break;
                         }
                         else if (garageHandler.GarageFull())
                         {
-                            ConsoleUI.GarageIsFull();
+                            ConsoleUI.DisplayWarningMessage("The garage is full");
                             break;
                         }
                         else
@@ -43,26 +43,26 @@ namespace Garage
                             break;
                         }
                     case 3:
-                        string reg_num = ConsoleUI.AskUserRegNum();
+                        string reg_num = ConsoleUI.AskForStringInput("Enter license number, e.g. ABC444: ");
                         if (garageHandler == null)
                         {
-                            ConsoleUI.GarageIsEmpty();
+                            ConsoleUI.DisplayWarningMessage("There is no garage, please create one first");
                             break;
                         }
                         if (garageHandler.RemoveVehicle(reg_num))
                         {
-                            ConsoleUI.RemoveSuccess();
+                            ConsoleUI.DisplaySuccessMessage("The vehicle removed successfully!");
                         }
                         else
                         {
-                            ConsoleUI.RemoveFailed();
+                            ConsoleUI.DisplayWarningMessage("Remove of the vehicle failed");
                             break;
                         }
                         break;
                     case 4:
                         if (garageHandler == null)
                         {
-                            ConsoleUI.GarageIsEmpty();
+                            ConsoleUI.DisplayWarningMessage("There is no garage, please create one first");
                             break;
                         }
 
@@ -72,7 +72,7 @@ namespace Garage
                     case 5:
                         if (garageHandler == null)
                         {
-                            ConsoleUI.GarageIsEmpty();
+                            ConsoleUI.DisplayWarningMessage("There is no garage, please create one first");
                             break;
                         }
 
@@ -85,7 +85,7 @@ namespace Garage
                         }
                         else
                         {
-                            ConsoleUI.NoSearchedVehiclesFound();
+                            ConsoleUI.DisplayWarningMessage("No vehicles found matching the search criteria");
                         }
                         break;
                 }
