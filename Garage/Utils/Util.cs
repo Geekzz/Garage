@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Garage.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,6 +77,62 @@ namespace Garage.Utils
             } while (true);
 
             return input;
+        }
+
+        public static string AskForFuelType(string prompt)
+        {
+            string[] validFuelTypes = { "Gas", "Diesel", "Electric" }; // Valid options
+            string? input;
+
+            while (true)
+            {
+                Console.Write(prompt);
+                input = Console.ReadLine(); // Read and trim input
+
+                // Validate input against the valid fuel types
+                if (Array.Exists(validFuelTypes, fuel => fuel.Equals(input, StringComparison.OrdinalIgnoreCase)))
+                {
+                    if(input != null)
+                        return input; // Return valid input
+                }
+                else
+                {
+                    PrintWarningTextColor("Invalid fuel type. Please enter Gas, Diesel, or Electric");
+                }
+            }
+        }
+
+        public static string AskForColor(string prompt)
+        {
+            string[] validColors = { "Red", "Blue", "Green", "Yellow", "Black", "White" }; // Valid color options
+            string? input;
+
+            while (true)
+            {
+                Console.Write(prompt);
+                input = Console.ReadLine(); // Read and trim input
+
+                // Validate input against the valid color options
+                if (Array.Exists(validColors, color => color.Equals(input, StringComparison.OrdinalIgnoreCase)))
+                {
+                    if(input != null)
+                        return char.ToUpper(input[0]) + input[1..].ToLower();
+                }
+                else
+                {
+                    PrintWarningTextColor("Invalid color. Please enter Red, Blue, Green, Yellow, Black, or White");
+                }
+            }
+        }
+
+        public static FuelType ConvertStringToFuelType(string valid_fuel_type)
+        {
+            if (valid_fuel_type.ToLower() == "gas")
+                return FuelType.Gas;
+            else if (valid_fuel_type.ToLower() == "diesel")
+                return FuelType.Diesel;
+            else
+                return FuelType.Electric;
         }
     }
 }

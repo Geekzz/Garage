@@ -40,6 +40,11 @@ namespace Garage.Handlers
             return garage;
         }
 
+        public uint GetGarageCapacity()
+        {
+            return garage.GetCapacity();
+        }
+
         public Dictionary<string, int> GetVehiclesTypes()
         {
             Dictionary<string, int> vehicles_dic = [];

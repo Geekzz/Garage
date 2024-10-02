@@ -70,8 +70,8 @@ namespace Garage.UI
         public static void AskVehicleInfo(uint vehicle, GarageHandler garageHandler)
         {
             string license_num = Util.AskForRegPlateNumber("Enter license number, e.g. ABC444: ");
-            string color = Util.AskForString("Enter color (e.g. Blue): ");
-            string fuel_type = Util.AskForString("Enter fuel type (Gas, Diesel, or Electric): ");
+            string color = Util.AskForColor("Choose color: ");
+            string fuel_type = Util.AskForFuelType("Enter fuel type: ");
             uint model_year = Util.AskForUInt("Enter model year: ");
 
             Vehicle? vh = null; 
@@ -80,31 +80,31 @@ namespace Garage.UI
             {
                 case 1:
                     uint door_num = Util.AskForUInt("Enter number of doors: ");
-                    vh = new Car(license_num, color, model_year, FuelType.Diesel, door_num);
+                    vh = new Car(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type), door_num);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Car added successfully!");
                     break;
                 case 2:
                     uint engine_volume = Util.AskForUInt("Enter engine volume (e.g. 600): ");
-                    vh = new Motorcycle(license_num, color, model_year, FuelType.Gas, engine_volume);
+                    vh = new Motorcycle(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type), engine_volume);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Motorcycle added successfully!");
                     break;
                 case 3:
                     uint boat_length = Util.AskForUInt("Enter length of the boat: ");
-                    vh = new Boat(license_num, color, model_year, FuelType.Diesel,  boat_length);
+                    vh = new Boat(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type),  boat_length);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Boat added successfully!");
                     break;
                 case 4:
                     uint seats_num = Util.AskForUInt("Enter number of passenger seats: ");
-                    vh = new Bus(license_num, color, model_year, FuelType.Gas, seats_num);
+                    vh = new Bus(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type), seats_num);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Bus added successfully!");
                     break;
                 case 5:
                     uint wings_span = Util.AskForUInt("Enter wings span length: ");
-                    vh = new Airplane(license_num, color, model_year, FuelType.Gas, wings_span);
+                    vh = new Airplane(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type), wings_span);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Airplane added successfully!");
                     break;
@@ -116,7 +116,7 @@ namespace Garage.UI
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
 
-            Console.WriteLine("Garage information:");
+            Console.WriteLine($"Garage capacity: {garageHandler.GetGarageCapacity()}");
             Console.WriteLine(new string('-', 90)); // Separator line
 
             // Print table headers
