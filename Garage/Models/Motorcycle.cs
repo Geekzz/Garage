@@ -18,7 +18,7 @@ namespace Garage.Models
 
         public override string GetDescription()
         {
-            return $"Engine volume: {engine_volume}";
+            return string.Format("{0} {1,-10}", base.GetDescription(), $"Engine volume: {engine_volume}");
         }
     }
 }

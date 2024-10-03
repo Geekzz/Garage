@@ -17,7 +17,7 @@ namespace Garage.Models
 
         public override string GetDescription()
         {
-            return $"Length: {length_size}";
+            return string.Format("{0} {1,-10}", base.GetDescription(), $"Length: {length_size}");
         }
     }
 }

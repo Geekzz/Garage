@@ -117,7 +117,7 @@ namespace Garage.UI
             Console.ForegroundColor = ConsoleColor.Yellow;
 
             Console.WriteLine($"Garage capacity: {garageHandler.GetGarageCapacity()}");
-            Console.WriteLine(new string('-', 90)); // Separator line
+            Console.WriteLine(new string('-', 100)); // Separator line
 
             // Print table headers
             Console.WriteLine(
@@ -125,10 +125,10 @@ namespace Garage.UI
                 $"{"License Plate",-20} " +
                 $"{"Color",-10} " +
                 $"{"Year",-6} " +
-                $"{"Description",-20} " +
-                $"{"Fuel Type",-10}"); 
+                $"{"Fuel type",-20} " +
+                $"{"Description",-10}"); 
 
-            Console.WriteLine(new string('-', 90)); // Separator line
+            Console.WriteLine(new string('-', 100)); // Separator line
 
             // Get all vehicles from the garage
             var vehicles = garageHandler.GetGarage();
@@ -139,13 +139,7 @@ namespace Garage.UI
                 if (vehicle != null)
                 {
                     // Print the vehicle details if not null
-                    Console.WriteLine(
-                        $"{vehicle.GetType().Name,-15} " +
-                        $"{vehicle.LicensePlateNumber(),-20} " +
-                        $"{vehicle.GetColor(),-10} " +
-                        $"{vehicle.GetModelYear(),-6} " +
-                        $"{vehicle.GetDescription(),-20} " +
-                        $"{vehicle.FuelType(),-10}"); 
+                    Console.WriteLine($"{vehicle.GetType().Name,-15} {vehicle.GetDescription()}");
                 }
                 else
                 {
@@ -161,7 +155,7 @@ namespace Garage.UI
             }
 
             // Print separator line after the vehicle list
-            Console.WriteLine(new string('-', 90));
+            Console.WriteLine(new string('-', 100));
 
             // Get vehicle type counts from GarageHandler
             var vehicleTypeCounts = garageHandler.GetVehiclesTypes();
@@ -194,10 +188,10 @@ namespace Garage.UI
                 $"{"License Plate",-20} " +
                 $"{"Color",-10} " +
                 $"{"Year",-6} " +
-                $"{"Description",-20} " +
-                $"{"Fuel Type",-10}");
+                $"{"Fuel type",-20} " +
+                $"{"Description",-10}");
 
-            Console.WriteLine(new string('-', 90)); // Separator line
+            Console.WriteLine(new string('-', 100)); // Separator line
 
             // Loop through the vehicles to display their details
             foreach (var vehicle in vehicles)
@@ -205,13 +199,7 @@ namespace Garage.UI
                 if (vehicle != null)
                 {
                     // Print the vehicle details if not null
-                    Console.WriteLine(
-                        $"{vehicle.GetType().Name,-15} " +
-                        $"{vehicle.LicensePlateNumber(),-20} " +
-                        $"{vehicle.GetColor(),-10} " +
-                        $"{vehicle.GetModelYear(),-6} " +
-                        $"{vehicle.GetDescription(),-20} " +
-                        $"{vehicle.FuelType(),-10}"); 
+                    Console.WriteLine($"{vehicle.GetType().Name,-15} {vehicle.GetDescription()}");
                 }
                 else
                 {

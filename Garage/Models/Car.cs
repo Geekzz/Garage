@@ -17,7 +17,7 @@ namespace Garage.Models
 
         public override string GetDescription()
         {
-            return $"Number of doors: {number_of_doors}";
+            return string.Format("{0} {1,-10}", base.GetDescription(), $"Number of doors: {number_of_doors}");
         }
     }
 }

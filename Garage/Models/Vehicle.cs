@@ -37,7 +37,7 @@ namespace Garage.Models
 
         public virtual string GetDescription()
         {
-            return $"License plate number: {license_plate_number}, color: {color}, model year: {model_year}, fuel type: {fuel_type}";
+            return string.Format("{0,-20} {1,-10} {2,-6} {3,-20}", license_plate_number, color, model_year, fuel_type);
         }
     }
 }

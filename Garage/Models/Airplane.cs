@@ -17,7 +17,7 @@ namespace Garage.Models
 
         public override string GetDescription()
         {
-            return $"Wings span: {wings_span}";
+            return string.Format("{0} {1,-10}", base.GetDescription(), $"Wings span: {wings_span}");
         }
     }
 }
