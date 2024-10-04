@@ -2,6 +2,7 @@
 using Garage.Interfaces;
 using Garage.Models;
 using Garage.UI;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Handlers
 {
-    internal class GarageHandler: IHandler<Vehicle>
+    internal class GarageHandler : IHandler<Vehicle>
     {
         private readonly List<Garage<Vehicle>> garage_list;
 
@@ -45,9 +46,9 @@ namespace Garage.Handlers
             ConsoleUI.DisplaySuccessMessage($"Garage with capacity of {capacity} added successfully");
         }
 
-        public List<Garage<Vehicle>> GetGarageList() 
-        { 
-            return garage_list; 
+        public List<Garage<Vehicle>> GetGarageList()
+        {
+            return garage_list;
         }
 
         public bool RemoveVehicle(string register_plate_number)
@@ -132,6 +133,81 @@ namespace Garage.Handlers
             }
 
             return matchingVehicles; // Return the matching vehicles
+        }
+
+        public void ReadGarageJsonFile(IConfiguration config)
+        {
+            var garages = config.GetSection("garages").GetChildren();
+
+            foreach (var garage in garages)
+            {
+                // Parse garage capacity
+                if (uint.TryParse(garage["capacity"], out uint capacity))
+                {
+                    // Create a new garage instance with the given capacity
+                    Garage<Vehicle> newGarage = new Garage<Vehicle>(capacity);
+
+                    // Read vehicles from JSON and add them to the garage
+                    var vehicles = garage.GetSection("vehicles").GetChildren();
+                    foreach (var vehicle in vehicles)
+                    {
+                        Vehicle newVehicle = null;
+
+                        // Handle different types of vehicles based on the "type" field
+                        switch (vehicle["type"])
+                        {
+                            case "Car":
+                                newVehicle = new Car(
+                                    vehicle["licensePlate"],
+                                    vehicle["color"],
+                                    uint.Parse(vehicle["modelYear"]),
+                                    Utils.Util.ConvertStringToFuelType(vehicle["fuelType"]),
+                                    uint.Parse(vehicle["numberOfDoors"])
+                                );
+                                break;
+
+                            case "Motorcycle":
+                                newVehicle = new Motorcycle(
+                                    vehicle["licensePlate"],
+                                    vehicle["color"],
+                                    uint.Parse(vehicle["modelYear"]),
+                                    Utils.Util.ConvertStringToFuelType(vehicle["fuelType"]),
+                                    uint.Parse(vehicle["engineVolume"])
+                                );
+                                break;
+
+                            case "Boat":
+                                newVehicle = new Boat(
+                                    vehicle["licensePlate"],
+                                    vehicle["color"],
+                                    uint.Parse(vehicle["modelYear"]),
+                                    Utils.Util.ConvertStringToFuelType(vehicle["fuelType"]),
+                                    uint.Parse(vehicle["length"])
+                                );
+                                break;
+
+                            case "Bus":
+                                newVehicle = new Bus(
+                                    vehicle["licensePlate"],
+                                    vehicle["color"],
+                                    uint.Parse(vehicle["modelYear"]),
+                                    Utils.Util.ConvertStringToFuelType(vehicle["fuelType"]),
+                                    uint.Parse(vehicle["numberOfSeats"])
+                                );
+                                break;
+                        }
+
+                        // Add the new vehicle to the garage
+                        if (newVehicle != null)
+                        {
+                            newGarage.AddVehicle(newVehicle);
+                        }
+                    }
+
+                    // Add the new garage to the garage list
+                    garage_list.Add(newGarage);
+                }
+            }
         }
     }
 }

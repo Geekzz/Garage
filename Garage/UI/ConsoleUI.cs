@@ -21,6 +21,8 @@ namespace Garage.UI
             Console.WriteLine("3. Remove vehicle from the garage");
             Console.WriteLine("4. Display all vehicles from the garage");
             Console.WriteLine("5. Search for vehicles based on information");
+            Console.WriteLine("6. Load data");
+            Console.WriteLine("7. Save data");
         }
 
         public static uint AskForUIntInput(string prompt)
@@ -72,37 +74,42 @@ namespace Garage.UI
             string license_num = Util.AskForRegPlateNumber("Enter license number, e.g. ABC444: ");
             string color = Util.AskForColor("Choose color: ");
             string fuel_type = Util.AskForFuelType("Enter fuel type: ");
-            uint model_year = Util.AskForNumberInRange("Enter model year: ", 1900, 2024);
+            uint model_year = 0;
 
             Vehicle? vh = null; 
 
             switch (vehicle)
             {
                 case 1:
+                    model_year = Util.AskForNumberInRange("Enter model year: ", 1886, 2024);
                     uint door_num = Util.AskForNumberInRange("Enter number of doors: ", 1, 4);
                     vh = new Car(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type), door_num);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Car added successfully!");
                     break;
                 case 2:
+                    model_year = Util.AskForNumberInRange("Enter model year: ", 1885, 2024);
                     uint engine_volume = Util.AskForNumberInRange("Enter engine volume (e.g. 600): ", 50, 1300);
                     vh = new Motorcycle(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type), engine_volume);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Motorcycle added successfully!");
                     break;
                 case 3:
+                    model_year = Util.AskForNumberInRange("Enter model year: ", 0, 2024);
                     uint boat_length = Util.AskForNumberInRange("Enter length of the boat: ", 1, 50);
                     vh = new Boat(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type),  boat_length);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Boat added successfully!");
                     break;
                 case 4:
+                    model_year = Util.AskForNumberInRange("Enter model year: ", 1826, 2024);
                     uint seats_num = Util.AskForNumberInRange("Enter number of passenger seats: ", 6, 20);
                     vh = new Bus(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type), seats_num);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Bus added successfully!");
                     break;
                 case 5:
+                    model_year = Util.AskForNumberInRange("Enter model year: ", 1903, 2024);
                     uint wings_span = Util.AskForNumberInRange("Enter wings span length: ", 2, 20);
                     vh = new Airplane(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type), wings_span);
                     garageHandler.AddVehicle(vh);
