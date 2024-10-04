@@ -2,12 +2,13 @@
 using Garage.Interfaces;
 using Garage.Models;
 using Garage.UI;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Garage.Handlers
 {
@@ -135,79 +136,52 @@ namespace Garage.Handlers
             return matchingVehicles; // Return the matching vehicles
         }
 
-        public void ReadGarageJsonFile(IConfiguration config)
+        public void ReadGarageJsonFile()
         {
-            var garages = config.GetSection("garages").GetChildren();
+            // Use the current directory to find the appsettings.txt file
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.txt");
 
-            foreach (var garage in garages)
+            // Check if the file exists before attempting to read it
+            if (File.Exists(path))
             {
-                // Parse garage capacity
-                if (uint.TryParse(garage["capacity"], out uint capacity))
+                // Read all lines from the file
+                string[] lines = File.ReadAllLines(path);
+
+                // Iterate through each line and print the contents
+                foreach (var line in lines)
                 {
-                    // Create a new garage instance with the given capacity
-                    Garage<Vehicle> newGarage = new Garage<Vehicle>(capacity);
-
-                    // Read vehicles from JSON and add them to the garage
-                    var vehicles = garage.GetSection("vehicles").GetChildren();
-                    foreach (var vehicle in vehicles)
-                    {
-                        Vehicle newVehicle = null;
-
-                        // Handle different types of vehicles based on the "type" field
-                        switch (vehicle["type"])
-                        {
-                            case "Car":
-                                newVehicle = new Car(
-                                    vehicle["licensePlate"],
-                                    vehicle["color"],
-                                    uint.Parse(vehicle["modelYear"]),
-                                    Utils.Util.ConvertStringToFuelType(vehicle["fuelType"]),
-                                    uint.Parse(vehicle["numberOfDoors"])
-                                );
-                                break;
-
-                            case "Motorcycle":
-                                newVehicle = new Motorcycle(
-                                    vehicle["licensePlate"],
-                                    vehicle["color"],
-                                    uint.Parse(vehicle["modelYear"]),
-                                    Utils.Util.ConvertStringToFuelType(vehicle["fuelType"]),
-                                    uint.Parse(vehicle["engineVolume"])
-                                );
-                                break;
-
-                            case "Boat":
-                                newVehicle = new Boat(
-                                    vehicle["licensePlate"],
-                                    vehicle["color"],
-                                    uint.Parse(vehicle["modelYear"]),
-                                    Utils.Util.ConvertStringToFuelType(vehicle["fuelType"]),
-                                    uint.Parse(vehicle["length"])
-                                );
-                                break;
-
-                            case "Bus":
-                                newVehicle = new Bus(
-                                    vehicle["licensePlate"],
-                                    vehicle["color"],
-                                    uint.Parse(vehicle["modelYear"]),
-                                    Utils.Util.ConvertStringToFuelType(vehicle["fuelType"]),
-                                    uint.Parse(vehicle["numberOfSeats"])
-                                );
-                                break;
-                        }
-
-                        // Add the new vehicle to the garage
-                        if (newVehicle != null)
-                        {
-                            newGarage.AddVehicle(newVehicle);
-                        }
-                    }
-
-                    // Add the new garage to the garage list
-                    garage_list.Add(newGarage);
+                    Console.WriteLine(line);
                 }
             }
+            else
+            {
+                Console.WriteLine($"The file {path} does not exist.");
+            }
+        }
+
+        public void WriteToGarageJsonFile()
+        {
+            // Use the current directory for file path
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.txt");
+            StringBuilder sb = new StringBuilder();
+
+            // Garage 1
+            sb.Append("Capacity: 10, Vehicles: [");
+            sb.Append("{Type: Car, LicensePlate: ABC123, Color: Red, ModelYear: 2020, FuelType: Gasoline, NumberOfDoors: 4}, ");
+            sb.Append("{Type: Motorcycle, LicensePlate: XYZ456, Color: Blue, ModelYear: 2018, FuelType: Gas, EngineVolume: 600}");
+            sb.AppendLine("]");
+
+            // Garage 2
+            sb.Append("Capacity: 5, Vehicles: [");
+            sb.Append("{Type: Boat, LicensePlate: BOAT789, Color: White, ModelYear: 2015, FuelType: Diesel, Length: 25}, ");
+            sb.Append("{Type: Bus, LicensePlate: BUS012, Color: Yellow, ModelYear: 2019, FuelType: Diesel, NumberOfSeats: 20}");
+            sb.AppendLine("]");
+
+            // Write the content to the file (create it if it doesn't exist)
+            File.WriteAllText(path, sb.ToString());
+
+            // Inform the user (optional)
+            Console.WriteLine($"Data has been written to {path}");
         }
     }
 }

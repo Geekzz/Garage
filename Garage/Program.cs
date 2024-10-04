@@ -1,7 +1,6 @@
 ﻿using Garage.Handlers;
 using Garage.Models;
 using Garage.UI;
-using Microsoft.Extensions.Configuration;
 
 namespace Garage
 {
@@ -12,10 +11,10 @@ namespace Garage
             bool flag = true;
             GarageHandler? garageHandler = new GarageHandler();
 
-            IConfiguration config = new ConfigurationBuilder()
-                .SetBasePath(Environment.CurrentDirectory)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
+            //IConfiguration config = new ConfigurationBuilder()
+            //    .SetBasePath(Environment.CurrentDirectory)
+            //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            //    .Build();
 
             while (flag)
             {
@@ -27,11 +26,13 @@ namespace Garage
                     case 0:
                         flag = false;
                         break;
+
                     case 1:
                         uint size = ConsoleUI.AskForUIntInput("Enter garage's capacity: ");
                         //garageHandler = new GarageHandler();
                         garageHandler?.AddGarage(size);
                         break;
+
                     case 2:
                         if(garageHandler?.GetGarage().Count() == 0)
                         {
@@ -49,6 +50,7 @@ namespace Garage
                             ConsoleUI.AskVehicleInfo(vehicle_type, garageHandler!);
                             break;
                         }
+
                     case 3:
                         if (garageHandler?.GetGarage().Count() == 0)
                         {
@@ -66,6 +68,7 @@ namespace Garage
                             break;
                         }
                         break;
+
                     case 4:
                         if (garageHandler == null)
                         {
@@ -95,8 +98,13 @@ namespace Garage
                             ConsoleUI.DisplayWarningMessage("No vehicles found matching the search criteria");
                         }
                         break;
+
                     case 6:
-                        garageHandler?.ReadGarageJsonFile(config);
+                        garageHandler?.ReadGarageJsonFile();
+                        break;
+
+                    case 7:
+                        garageHandler?.WriteToGarageJsonFile();
                         break;
                 }
             }
