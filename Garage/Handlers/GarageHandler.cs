@@ -12,53 +12,92 @@ namespace Garage.Handlers
 {
     internal class GarageHandler: IHandler<Vehicle>
     {
-        private readonly Garage<Vehicle> garage;
+        private readonly List<Garage<Vehicle>> garage_list;
 
-        public GarageHandler(uint capacity)
+        public GarageHandler()
         {
-            // Create new Garage with its fixed capacity size
-            garage = new Garage<Vehicle>(capacity);
-            ConsoleUI.DisplaySuccessMessage($"Garage with capacity of {capacity} added successfully");
+            garage_list = new List<Garage<Vehicle>>();
+            //Garage<Vehicle> garage = new Garage<Vehicle>(capacity);
+            //garage_list.Add(garage);
+            //ConsoleUI.DisplaySuccessMessage($"Garage with capacity of {capacity} added successfully");
         }
         public bool AddVehicle(Vehicle vehicle)
         {
-            return garage.AddVehicle(vehicle);
+            foreach (var garage in garage_list)
+            {
+                // Try to add the vehicle to the current garage
+                if (!garage.IsGarageFull())
+                {
+                    if (garage.AddVehicle(vehicle))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public void AddGarage(uint capacity)
+        {
+            Garage<Vehicle> newGarage = new Garage<Vehicle>(capacity);
+            garage_list.Add(newGarage);
+            ConsoleUI.DisplaySuccessMessage($"Garage with capacity of {capacity} added successfully");
+        }
+
+        public List<Garage<Vehicle>> GetGarageList() 
+        { 
+            return garage_list; 
         }
 
         public bool RemoveVehicle(string register_plate_number)
         {
-            return garage.RemoveVehicle(register_plate_number);
+            foreach (var garage in garage_list)
+            {
+                if (garage.RemoveVehicle(register_plate_number))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+            //return garage.RemoveVehicle(register_plate_number);
         }
 
         public bool GarageFull()
         {
-            return garage.IsGarageFull();
+            return garage_list.All(g => g.IsGarageFull());
+            //return garage.IsGarageFull();
         }
+
 
         public IEnumerable<Vehicle> GetGarage()
         {
-            return garage;
-        }
-
-        public uint GetGarageCapacity()
-        {
-            return garage.GetCapacity();
+            return garage_list.SelectMany(g => g);
+            //return garage;
         }
 
         public Dictionary<string, int> GetVehiclesTypes()
         {
-            Dictionary<string, int> vehicles_dic = [];
+            Dictionary<string, int> vehicles_dic = new Dictionary<string, int>();
 
-            foreach (Vehicle vehicle in garage)
+            // Loop through all garages in the list
+            foreach (var garage in garage_list)
             {
-                // Check if the vehicle is not null to prevent error
-                if (vehicle != null)
+                // Loop through each vehicle in the current garage
+                foreach (Vehicle vehicle in garage)
                 {
-                    var vehicle_type = vehicle.GetType().Name;
-                    if (vehicles_dic.TryGetValue(vehicle_type, out int value))
-                        vehicles_dic[vehicle_type] = ++value;
-                    else
-                        vehicles_dic[vehicle_type] = 1;
+                    // Check if the vehicle is not null to prevent error
+                    if (vehicle != null)
+                    {
+                        var vehicle_type = vehicle.GetType().Name;
+
+                        // If the vehicle type exists, increment the count, otherwise add it to the dictionary
+                        if (vehicles_dic.TryGetValue(vehicle_type, out int value))
+                            vehicles_dic[vehicle_type] = ++value;
+                        else
+                            vehicles_dic[vehicle_type] = 1;
+                    }
                 }
             }
 
@@ -70,18 +109,27 @@ namespace Garage.Handlers
             // Split the input by spaces to get individual search terms
             var searchTerms = input.Split(" ");
 
-            // Use LINQ to filter vehicles based on the search terms
-            var matchingVehicles = garage
-                .Where(vehicle => vehicle != null &&
-                                 searchTerms.Any(term =>
-                                     vehicle.GetColor().Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                                     vehicle.LicensePlateNumber().Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                                     vehicle.GetDescription().Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                                     vehicle.GetModelYear().ToString().Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                                     Enum.GetName(typeof(FuelType), vehicle.FuelType()).Equals(term, StringComparison.OrdinalIgnoreCase) ||
-                                     vehicle.GetType().Name.Contains(term, StringComparison.OrdinalIgnoreCase)))
-                .ToList();
+            // Create a list to hold all matching vehicles
+            var matchingVehicles = new List<Vehicle>();
 
+            // Loop through each garage in the garage list
+            foreach (var garage in garage_list)
+            {
+                // Use LINQ to filter vehicles based on the search terms for each garage
+                var garageMatchingVehicles = garage
+                    .Where(vehicle => vehicle != null &&
+                                     searchTerms.Any(term =>
+                                         vehicle.GetColor().Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                                         vehicle.LicensePlateNumber().Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                                         vehicle.GetDescription().Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                                         vehicle.GetModelYear().ToString().Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                                         Enum.GetName(typeof(FuelType), vehicle.FuelType()).Equals(term, StringComparison.OrdinalIgnoreCase) ||
+                                         vehicle.GetType().Name.Contains(term, StringComparison.OrdinalIgnoreCase)))
+                    .ToList();
+
+                // Add matching vehicles from this garage to the main list
+                matchingVehicles.AddRange(garageMatchingVehicles);
+            }
 
             return matchingVehicles; // Return the matching vehicles
         }

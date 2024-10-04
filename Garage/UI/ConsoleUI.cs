@@ -72,38 +72,38 @@ namespace Garage.UI
             string license_num = Util.AskForRegPlateNumber("Enter license number, e.g. ABC444: ");
             string color = Util.AskForColor("Choose color: ");
             string fuel_type = Util.AskForFuelType("Enter fuel type: ");
-            uint model_year = Util.AskForUInt("Enter model year: ");
+            uint model_year = Util.AskForNumberInRange("Enter model year: ", 1900, 2024);
 
             Vehicle? vh = null; 
 
             switch (vehicle)
             {
                 case 1:
-                    uint door_num = Util.AskForUInt("Enter number of doors: ");
+                    uint door_num = Util.AskForNumberInRange("Enter number of doors: ", 1, 4);
                     vh = new Car(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type), door_num);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Car added successfully!");
                     break;
                 case 2:
-                    uint engine_volume = Util.AskForUInt("Enter engine volume (e.g. 600): ");
+                    uint engine_volume = Util.AskForNumberInRange("Enter engine volume (e.g. 600): ", 50, 1300);
                     vh = new Motorcycle(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type), engine_volume);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Motorcycle added successfully!");
                     break;
                 case 3:
-                    uint boat_length = Util.AskForUInt("Enter length of the boat: ");
+                    uint boat_length = Util.AskForNumberInRange("Enter length of the boat: ", 1, 50);
                     vh = new Boat(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type),  boat_length);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Boat added successfully!");
                     break;
                 case 4:
-                    uint seats_num = Util.AskForUInt("Enter number of passenger seats: ");
+                    uint seats_num = Util.AskForNumberInRange("Enter number of passenger seats: ", 6, 20);
                     vh = new Bus(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type), seats_num);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Bus added successfully!");
                     break;
                 case 5:
-                    uint wings_span = Util.AskForUInt("Enter wings span length: ");
+                    uint wings_span = Util.AskForNumberInRange("Enter wings span length: ", 2, 20);
                     vh = new Airplane(license_num, color, model_year, Util.ConvertStringToFuelType(fuel_type), wings_span);
                     garageHandler.AddVehicle(vh);
                     DisplaySuccessMessage("Airplane added successfully!");
@@ -113,51 +113,64 @@ namespace Garage.UI
 
         public static void DisplayAllVehicles(GarageHandler garageHandler)
         {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Yellow;
 
-            Console.WriteLine($"Garage capacity: {garageHandler.GetGarageCapacity()}");
-            Console.WriteLine(new string('-', 100)); // Separator line
-
-            // Print table headers
-            Console.WriteLine(
-                $"{"Vehicle Type",-15} " +
-                $"{"License Plate",-20} " +
-                $"{"Color",-10} " +
-                $"{"Year",-6} " +
-                $"{"Fuel type",-20} " +
-                $"{"Description",-10}"); 
-
-            Console.WriteLine(new string('-', 100)); // Separator line
-
-            // Get all vehicles from the garage
-            var vehicles = garageHandler.GetGarage();
-
-            // Loop through using the enumerator
-            foreach (var vehicle in vehicles)
+            // Check if there are any garages
+            if (garageHandler.GetGarageList().Count == 0)
             {
-                if (vehicle != null)
+                DisplayWarningMessage("There's no garage avaiable");
+                return;
+            }
+            Console.Clear();
+
+            int index = 1;
+            // Loop through each garage in the garage list
+            foreach (var garage in garageHandler.GetGarageList())
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine($"Garage number {index} with a capacity of: {garage.GetCapacity()}");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(new string('-', 100));
+
+                // Print table headers
+                Console.WriteLine(
+                    $"{"Vehicle Type",-15} " +
+                    $"{"License Plate",-20} " +
+                    $"{"Color",-10} " +
+                    $"{"Year",-6} " +
+                    $"{"Fuel type",-20} " +
+                    $"{"Description",-10}");
+
+                Console.WriteLine(new string('-', 100)); 
+
+                // Loop through vehicles in the current garage
+                var vehicles = garage.GetEnumerator(); // Use the enumerator to iterate through the vehicles
+
+                while (vehicles.MoveNext())
                 {
-                    // Print the vehicle details if not null
-                    Console.WriteLine($"{vehicle.GetType().Name,-15} {vehicle.GetDescription()}");
+                    var vehicle = vehicles.Current;
+
+                    if (vehicle != null)
+                    {
+                        // Print the vehicle details if not null
+                        Console.WriteLine($"{vehicle.GetType().Name,-15} {vehicle.GetDescription()}");
+                    }
+                    else
+                    {
+                        Console.WriteLine(
+                            $"{"-empty-",-15} " +
+                            $"{"-empty-",-20} " +
+                            $"{"-empty-",-10} " +
+                            $"{"-empty-",-6} " +
+                            $"{"-empty-",-20} " +
+                            $"{"-empty-",-10}"); 
+                    }
                 }
-                else
-                {
-                    // Print empty spot indicator for consistency in case garage has empty slots
-                    Console.WriteLine(
-                        $"{"-empty-",-15} " +
-                        $"{"-empty-",-20} " +
-                        $"{"-empty-",-10} " +
-                        $"{"-empty-",-6} " +
-                        $"{"-empty-",-20} " +
-                        $"{"-empty-",-10}"); // Added empty spot for Fuel Type
-                }
+
+                Console.WriteLine(new string('-', 100));
+                index++;
             }
 
-            // Print separator line after the vehicle list
-            Console.WriteLine(new string('-', 100));
-
-            // Get vehicle type counts from GarageHandler
+            // Get vehicle type counts across all garages
             var vehicleTypeCounts = garageHandler.GetVehiclesTypes();
 
             // Display vehicle type counts below the table
@@ -170,6 +183,7 @@ namespace Garage.UI
             Console.ForegroundColor = ConsoleColor.Gray; // Reset the text color to gray after printing
             Console.WriteLine(); // Print a new line after the entire table
         }
+
 
 
         public static string AskUserForSearchVehicles()

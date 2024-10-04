@@ -104,13 +104,13 @@ namespace Garage.Utils
 
         public static string AskForColor(string prompt)
         {
-            string[] validColors = { "Red", "Blue", "Green", "Yellow", "Black", "White" }; // Valid color options
+            string[] validColors = { "Red", "Blue", "Green", "Yellow", "Black", "White" }; // Valid color options, could be longer but lets stay basics
             string? input;
 
             while (true)
             {
                 Console.Write(prompt);
-                input = Console.ReadLine(); // Read and trim input
+                input = Console.ReadLine(); 
 
                 // Validate input against the valid color options
                 if (Array.Exists(validColors, color => color.Equals(input, StringComparison.OrdinalIgnoreCase)))
@@ -127,12 +127,26 @@ namespace Garage.Utils
 
         public static FuelType ConvertStringToFuelType(string valid_fuel_type)
         {
+            // Not sure if this function should stay here or moved to Vehicle class
             if (valid_fuel_type.ToLower() == "gas")
                 return FuelType.Gas;
             else if (valid_fuel_type.ToLower() == "diesel")
                 return FuelType.Diesel;
             else
                 return FuelType.Electric;
+        }
+
+        public static uint AskForNumberInRange(string prompt, uint num1, uint num2)
+        {
+            // This function makes sure the input is within a specified range, e.g., a car can't have more than a reasonable number of doors like 200?
+            while (true)
+            {
+                uint input = AskForUInt(prompt);
+                if (input < num1 || input > num2)
+                    PrintWarningTextColor($"The number should be between {num1}-{num2}, please try again");
+                else
+                    return input;
+            }
         }
     }
 }

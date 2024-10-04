@@ -40,7 +40,7 @@ namespace Garage.Garage
                 {
                     if (vehicles[i].LicensePlateNumber().ToLower() == register_plate_number.ToLower())
                     {
-                        vehicles[i] = default;
+                        vehicles[i] = default!;
                         count--;
                         return true;
                     }

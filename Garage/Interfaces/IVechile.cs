@@ -11,8 +11,8 @@ namespace Garage.Interfaces
     {
         string LicensePlateNumber();
         string GetColor();
+        string GetDescription();
         uint GetModelYear();
         FuelType FuelType();
-        string GetDescription();
     }
 }

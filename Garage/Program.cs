@@ -9,7 +9,7 @@ namespace Garage
         static void Main(string[] args)
         {
             bool flag = true;
-            GarageHandler? garageHandler = null;
+            GarageHandler? garageHandler = new GarageHandler();
 
             while (flag)
             {
@@ -23,15 +23,16 @@ namespace Garage
                         break;
                     case 1:
                         uint size = ConsoleUI.AskForUIntInput("Enter garage's capacity: ");
-                        garageHandler = new GarageHandler(size);
+                        //garageHandler = new GarageHandler();
+                        garageHandler?.AddGarage(size);
                         break;
                     case 2:
-                        if(garageHandler == null)
+                        if(garageHandler?.GetGarage().Count() == 0)
                         {
                             ConsoleUI.DisplayWarningMessage("There is no garage, please create one first");
                             break;
                         }
-                        else if (garageHandler.GarageFull())
+                        else if (garageHandler?.GarageFull() == true)
                         {
                             ConsoleUI.DisplayWarningMessage("The garage is full");
                             break;
@@ -39,17 +40,17 @@ namespace Garage
                         else
                         {
                             uint vehicle_type = ConsoleUI.AskVehicleType();
-                            ConsoleUI.AskVehicleInfo(vehicle_type, garageHandler);
+                            ConsoleUI.AskVehicleInfo(vehicle_type, garageHandler!);
                             break;
                         }
                     case 3:
-                        string reg_num = ConsoleUI.AskForRegNum("Enter license number, e.g. ABC444: ");
-                        if (garageHandler == null)
+                        if (garageHandler?.GetGarage().Count() == 0)
                         {
                             ConsoleUI.DisplayWarningMessage("There is no garage, please create one first");
                             break;
                         }
-                        if (garageHandler.RemoveVehicle(reg_num))
+                        string reg_num = ConsoleUI.AskForRegNum("Enter license number, e.g. ABC444: ");
+                        if (garageHandler?.RemoveVehicle(reg_num) == true)
                         {
                             ConsoleUI.DisplaySuccessMessage("The vehicle removed successfully!");
                         }
