@@ -16,13 +16,13 @@ namespace Garage.UI
         public static void DisplayMenu()
         {
             Console.WriteLine("0. Exit program");
-            Console.WriteLine("1. Create garage");
-            Console.WriteLine("2. Add vehicle to the garage");
-            Console.WriteLine("3. Remove vehicle from the garage");
-            Console.WriteLine("4. Display all vehicles from the garage");
+            Console.WriteLine("1. Create a new garage");
+            Console.WriteLine("2. Add a vehicle to the first available garage");
+            Console.WriteLine("3. Remove a vehicle by license plate number");
+            Console.WriteLine("4. Display all vehicles from all garages");
             Console.WriteLine("5. Search for vehicles based on information");
-            Console.WriteLine("6. Load data");
-            Console.WriteLine("7. Save data");
+            Console.WriteLine("6. Load garage data");
+            Console.WriteLine("7. Save garage data");
         }
 
         public static uint AskForUIntInput(string prompt)
