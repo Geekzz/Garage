@@ -16,4 +16,5 @@ Each garage can store a variety of vehicles, such as cars, motorcycles, boats, b
 *Please note: The file write operation overwrites any existing content. If you want to preserve old content, make sure to load it before saving.*
 
 # Example screenshot showing each vehicle
-![image](https://github.com/user-attachments/assets/c88e59ed-6f48-4a0c-b1c8-d3d8445ec7c2)
+![image](https://github.com/user-attachments/assets/96450cee-a521-450d-bf14-b737635b1d01)
+
