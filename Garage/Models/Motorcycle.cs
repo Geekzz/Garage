@@ -20,5 +20,10 @@ namespace Garage.Models
         {
             return string.Format("{0} {1,-10}", base.GetDescription(), $"Engine volume: {engine_volume}");
         }
+
+        public uint GetEngimeVolume()
+        {
+            return engine_volume;
+        }
     }
 }

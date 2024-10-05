@@ -10,6 +10,8 @@ namespace Garage.Interfaces
 {
     internal interface IHandler<T>
     {
+        public void ReadGarageJsonFile();
+        public void WriteToGarageJsonFile();
         bool AddVehicle(T vehicle);
         bool RemoveVehicle(string register_plate_number);
         bool GarageFull();

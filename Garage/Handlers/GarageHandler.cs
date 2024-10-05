@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -147,17 +148,110 @@ namespace Garage.Handlers
                 // Read all lines from the file
                 string[] lines = File.ReadAllLines(path);
 
-                // Iterate through each line and print the contents
+                // Iterate through each line and parse the contents
                 foreach (var line in lines)
                 {
-                    Console.WriteLine(line);
+                    // Parse the capacity part
+                    var capacityMatch = Regex.Match(line, @"Capacity:\s*(\d+),");
+
+                    if (capacityMatch.Success && uint.TryParse(capacityMatch.Groups[1].Value, out uint capacity))
+                    {
+                        // Create a new garage with the parsed capacity
+                        Garage<Vehicle> newGarage = new Garage<Vehicle>(capacity);
+
+                        // Parse the vehicles part (extract the content inside the brackets [])
+                        var vehiclesMatch = Regex.Match(line, @"Vehicles:\s*\[(.*)\]");
+
+                        if (vehiclesMatch.Success)
+                        {
+                            // Split the vehicle data (comma-separated)
+                            string vehiclesData = vehiclesMatch.Groups[1].Value;
+                            string[] vehiclesArray = vehiclesData.Split(new string[] { "}, {" }, StringSplitOptions.RemoveEmptyEntries);
+
+                            foreach (var vehicleData in vehiclesArray)
+                            {
+                                // Add curly braces back to make parsing easier
+                                string formattedVehicleData = vehicleData.Replace("{", "").Replace("}", "").Trim();
+
+                                // Parse the individual vehicle fields
+                                Dictionary<string, string> vehicleDict = new Dictionary<string, string>();
+                                foreach (var field in formattedVehicleData.Split(','))
+                                {
+                                    var keyValue = field.Split(':');
+                                    if (keyValue.Length == 2)
+                                    {
+                                        vehicleDict[keyValue[0].Trim()] = keyValue[1].Trim();
+                                    }
+                                }
+
+                                // Create the appropriate vehicle object based on the parsed data
+                                Vehicle newVehicle = null;
+                                switch (vehicleDict["Type"])
+                                {
+                                    case "Car":
+                                        newVehicle = new Car(
+                                            vehicleDict["LicensePlate"],
+                                            vehicleDict["Color"],
+                                            uint.Parse(vehicleDict["ModelYear"]),
+                                            Utils.Util.ConvertStringToFuelType(vehicleDict["FuelType"]),
+                                            uint.Parse(vehicleDict["NumberOfDoors"])
+                                        );
+                                        break;
+
+                                    case "Motorcycle":
+                                        newVehicle = new Motorcycle(
+                                            vehicleDict["LicensePlate"],
+                                            vehicleDict["Color"],
+                                            uint.Parse(vehicleDict["ModelYear"]),
+                                            Utils.Util.ConvertStringToFuelType(vehicleDict["FuelType"]),
+                                            uint.Parse(vehicleDict["EngineVolume"])
+                                        );
+                                        break;
+
+                                    case "Boat":
+                                        newVehicle = new Boat(
+                                            vehicleDict["LicensePlate"],
+                                            vehicleDict["Color"],
+                                            uint.Parse(vehicleDict["ModelYear"]),
+                                            Utils.Util.ConvertStringToFuelType(vehicleDict["FuelType"]),
+                                            uint.Parse(vehicleDict["Length"])
+                                        );
+                                        break;
+
+                                    case "Bus":
+                                        newVehicle = new Bus(
+                                            vehicleDict["LicensePlate"],
+                                            vehicleDict["Color"],
+                                            uint.Parse(vehicleDict["ModelYear"]),
+                                            Utils.Util.ConvertStringToFuelType(vehicleDict["FuelType"]),
+                                            uint.Parse(vehicleDict["NumberOfSeats"])
+                                        );
+                                        break;
+                                }
+
+                                // Add the new vehicle to the garage
+                                if (newVehicle != null)
+                                {
+                                    newGarage.AddVehicle(newVehicle);
+                                }
+                            }
+                        }
+
+                        // Add the newly created garage to the list
+                        garage_list.Add(newGarage);
+                    }
                 }
+                Console.Clear();
+                Utils.Util.PrintSuccessTextColor("The file is loaded successfully!");
             }
             else
             {
-                Console.WriteLine($"The file {path} does not exist.");
+                Console.Clear();
+                Utils.Util.PrintWarningTextColor($"The file {path} does not exist.");
+                //Console.WriteLine($"The file {path} does not exist.");
             }
         }
+
 
         public void WriteToGarageJsonFile()
         {
@@ -165,23 +259,63 @@ namespace Garage.Handlers
             string path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.txt");
             StringBuilder sb = new StringBuilder();
 
-            // Garage 1
-            sb.Append("Capacity: 10, Vehicles: [");
-            sb.Append("{Type: Car, LicensePlate: ABC123, Color: Red, ModelYear: 2020, FuelType: Gasoline, NumberOfDoors: 4}, ");
-            sb.Append("{Type: Motorcycle, LicensePlate: XYZ456, Color: Blue, ModelYear: 2018, FuelType: Gas, EngineVolume: 600}");
-            sb.AppendLine("]");
+            // Iterate through each garage in the garage_list
+            foreach (var garage in garage_list)
+            {
+                // Write the capacity of the garage
+                sb.Append($"Capacity: {garage.GetCapacity()}, Vehicles: [");
 
-            // Garage 2
-            sb.Append("Capacity: 5, Vehicles: [");
-            sb.Append("{Type: Boat, LicensePlate: BOAT789, Color: White, ModelYear: 2015, FuelType: Diesel, Length: 25}, ");
-            sb.Append("{Type: Bus, LicensePlate: BUS012, Color: Yellow, ModelYear: 2019, FuelType: Diesel, NumberOfSeats: 20}");
-            sb.AppendLine("]");
+                int vehicleCount = 0; // Counter to keep track of vehicles
+
+                // Iterate through each vehicle in the garage
+                for (int i = 0; i < garage.GetCapacity(); i++)
+                {
+                    var vehicle = garage.GetVehicle(i);
+
+                    if (vehicle != null)
+                    {
+                        // Check the type of vehicle and append its properties
+                        if (vehicle is Car car)
+                        {
+                            sb.Append($"{{Type: Car, LicensePlate: {car.LicensePlateNumber()}, Color: {car.GetColor()}, ModelYear: {car.GetModelYear()}, FuelType: {car.FuelType()}, NumberOfDoors: {car.GetNumOfDoors()}}}");
+                        }
+                        else if (vehicle is Motorcycle motorcycle)
+                        {
+                            sb.Append($"{{Type: Motorcycle, LicensePlate: {motorcycle.LicensePlateNumber()}, Color: {motorcycle.GetColor()}, ModelYear: {motorcycle.GetModelYear()}, FuelType: {motorcycle.FuelType()}, EngineVolume: {motorcycle.GetEngimeVolume()}}}");
+                        }
+                        else if (vehicle is Boat boat)
+                        {
+                            sb.Append($"{{Type: Boat, LicensePlate: {boat.LicensePlateNumber()} , Color:  {boat.GetColor()} , ModelYear:  {boat.GetModelYear()} , FuelType:  {boat.FuelType()}, Length: {boat.GetLengthSize()}}}");
+                        }
+                        else if (vehicle is Bus bus)
+                        {
+                            sb.Append($"{{Type: Bus, LicensePlate: {bus.LicensePlateNumber()} , Color:  {bus.GetColor()} , ModelYear:  {bus.GetModelYear()} , FuelType:  {bus.FuelType()}, NumberOfSeats: {bus.GetNumberOfSeats()}}}");
+                        }
+                        else if (vehicle is Airplane airplane)
+                        {
+                            sb.Append($"{{Type: Bus, LicensePlate: {airplane.LicensePlateNumber()} , Color:  {airplane.GetColor()} , ModelYear:  {airplane.GetModelYear()} , FuelType:  {airplane.FuelType()}, NumberOfSeats: {airplane.GetWingsSpan()}}}");
+                        }
+
+                        // Add a comma and space after each vehicle except the last one
+                        if (vehicleCount < garage.GetCapacity() && garage.GetVehicle(vehicleCount) != null)
+                        {
+                            sb.Append(", ");
+                        }
+                    }
+                }
+
+                // Close the vehicle array and add a new line
+                sb.AppendLine("]");
+            }
 
             // Write the content to the file (create it if it doesn't exist)
             File.WriteAllText(path, sb.ToString());
 
             // Inform the user (optional)
-            Console.WriteLine($"Data has been written to {path}");
+            Console.Clear();
+            Utils.Util.PrintSuccessTextColor($"Data has been written to {path}");
+            //Console.WriteLine($"Data has been written to {path}");
         }
+
     }
 }

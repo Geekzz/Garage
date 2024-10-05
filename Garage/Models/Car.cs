@@ -19,5 +19,10 @@ namespace Garage.Models
         {
             return string.Format("{0} {1,-10}", base.GetDescription(), $"Number of doors: {number_of_doors}");
         }
+
+        public uint GetNumOfDoors()
+        {
+            return number_of_doors;
+        }
     }
 }

@@ -20,5 +20,10 @@ namespace Garage.Models
             return string.Format("{0} {1,-10}", base.GetDescription(), $"Number of seats: {number_of_seats}");
             //return $"Number of seats: {number_of_seats}";
         }
+
+        public uint GetNumberOfSeats()
+        {
+            return number_of_seats;
+        }
     }
 }
