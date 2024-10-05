@@ -185,7 +185,7 @@ namespace Garage.Handlers
                                 }
 
                                 // Create the appropriate vehicle object based on the parsed data
-                                Vehicle newVehicle = null;
+                                Vehicle newVehicle = null!;
                                 switch (vehicleDict["Type"])
                                 {
                                     case "Car":
@@ -265,15 +265,18 @@ namespace Garage.Handlers
                 // Write the capacity of the garage
                 sb.Append($"Capacity: {garage.GetCapacity()}, Vehicles: [");
 
-                int vehicleCount = 0; // Counter to keep track of vehicles
+                bool isFirstVehicle = true; // Track if it's the first vehicle to avoid an extra comma
 
                 // Iterate through each vehicle in the garage
-                for (int i = 0; i < garage.GetCapacity(); i++)
+                foreach (var vehicle in garage)
                 {
-                    var vehicle = garage.GetVehicle(i);
-
                     if (vehicle != null)
                     {
+                        if (!isFirstVehicle)
+                        {
+                            sb.Append(", "); // Add a comma before each vehicle, except the first
+                        }
+
                         // Check the type of vehicle and append its properties
                         if (vehicle is Car car)
                         {
@@ -285,22 +288,18 @@ namespace Garage.Handlers
                         }
                         else if (vehicle is Boat boat)
                         {
-                            sb.Append($"{{Type: Boat, LicensePlate: {boat.LicensePlateNumber()} , Color:  {boat.GetColor()} , ModelYear:  {boat.GetModelYear()} , FuelType:  {boat.FuelType()}, Length: {boat.GetLengthSize()}}}");
+                            sb.Append($"{{Type: Boat, LicensePlate: {boat.LicensePlateNumber()}, Color: {boat.GetColor()}, ModelYear: {boat.GetModelYear()}, FuelType: {boat.FuelType()}, Length: {boat.GetLengthSize()}}}");
                         }
                         else if (vehicle is Bus bus)
                         {
-                            sb.Append($"{{Type: Bus, LicensePlate: {bus.LicensePlateNumber()} , Color:  {bus.GetColor()} , ModelYear:  {bus.GetModelYear()} , FuelType:  {bus.FuelType()}, NumberOfSeats: {bus.GetNumberOfSeats()}}}");
+                            sb.Append($"{{Type: Bus, LicensePlate: {bus.LicensePlateNumber()}, Color: {bus.GetColor()}, ModelYear: {bus.GetModelYear()}, FuelType: {bus.FuelType()}, NumberOfSeats: {bus.GetNumberOfSeats()}}}");
                         }
                         else if (vehicle is Airplane airplane)
                         {
-                            sb.Append($"{{Type: Bus, LicensePlate: {airplane.LicensePlateNumber()} , Color:  {airplane.GetColor()} , ModelYear:  {airplane.GetModelYear()} , FuelType:  {airplane.FuelType()}, NumberOfSeats: {airplane.GetWingsSpan()}}}");
+                            sb.Append($"{{Type: Airplane, LicensePlate: {airplane.LicensePlateNumber()}, Color: {airplane.GetColor()}, ModelYear: {airplane.GetModelYear()}, FuelType: {airplane.FuelType()}, Wingspan: {airplane.GetWingsSpan()}}}");
                         }
 
-                        // Add a comma and space after each vehicle except the last one
-                        if (vehicleCount < garage.GetCapacity() && garage.GetVehicle(vehicleCount) != null)
-                        {
-                            sb.Append(", ");
-                        }
+                        isFirstVehicle = false; // After the first vehicle, set this to false
                     }
                 }
 
@@ -314,7 +313,6 @@ namespace Garage.Handlers
             // Inform the user (optional)
             Console.Clear();
             Utils.Util.PrintSuccessTextColor($"Data has been written to {path}");
-            //Console.WriteLine($"Data has been written to {path}");
         }
 
     }

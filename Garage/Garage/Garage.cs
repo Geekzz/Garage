@@ -50,11 +50,6 @@ namespace Garage.Garage
             return false;
         }
 
-        public T GetVehicle(int index)
-        {
-            return vehicles[index];
-        }
-
         public uint GetCapacity()
         {
             return this.capacity;
