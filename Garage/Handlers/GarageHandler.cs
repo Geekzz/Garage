@@ -20,9 +20,6 @@ namespace Garage.Handlers
         public GarageHandler()
         {
             garage_list = new List<Garage<Vehicle>>();
-            //Garage<Vehicle> garage = new Garage<Vehicle>(capacity);
-            //garage_list.Add(garage);
-            //ConsoleUI.DisplaySuccessMessage($"Garage with capacity of {capacity} added successfully");
         }
         public bool AddVehicle(Vehicle vehicle)
         {
@@ -64,20 +61,17 @@ namespace Garage.Handlers
             }
 
             return false;
-            //return garage.RemoveVehicle(register_plate_number);
         }
 
         public bool GarageFull()
         {
             return garage_list.All(g => g.IsGarageFull());
-            //return garage.IsGarageFull();
         }
 
 
         public IEnumerable<Vehicle> GetGarage()
         {
             return garage_list.SelectMany(g => g);
-            //return garage;
         }
 
         public Dictionary<string, int> GetVehiclesTypes()
@@ -109,7 +103,8 @@ namespace Garage.Handlers
 
         public IEnumerable<Vehicle> SearchVehicles(string input)
         {
-            // Split the input by spaces to get individual search terms
+            // Split the input by spaces to get individual search terms,
+            // StringSplitOptions.RemoveEmptyEntries to avoid empty search terms if the input contains extra spaces
             var searchTerms = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
             // Create a list to hold all matching vehicles

@@ -18,7 +18,7 @@ namespace Garage.Interfaces
         public static abstract void AskVehicleInfo(uint vehicle, GarageHandler garageHandler);
         public static abstract void DisplayAllVehicles(GarageHandler garageHandler);
         public static abstract void DisplaySearchedVehicles(IEnumerable<Vehicle> vehicles);
-        public static abstract string AskForStringInput(string prompt);
+        public static abstract string AskForRegNum(string prompt);
         public static abstract string AskUserForSearchVehicles();
         public static abstract uint AskVehicleType();
         public static abstract uint AskForUIntInput(string prompt);

@@ -30,11 +30,6 @@ namespace Garage.UI
             return Util.AskForUInt(prompt);
         }
 
-        public static string AskForStringInput(string prompt)
-        {
-            return Util.AskForString(prompt);
-        }
-
         public static string AskForRegNum(string prompt)
         {
             return Util.AskForRegPlateNumber(prompt);
