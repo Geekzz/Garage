@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Interfaces
 {
-    internal interface IVechile
+    public interface IVechile
     {
         string LicensePlateNumber();
         string GetColor();

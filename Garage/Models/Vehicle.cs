@@ -14,7 +14,7 @@ namespace Garage.Models
         Electric
     }
 
-    internal class Vehicle: IVechile
+    public class Vehicle: IVechile
     {
         private string? license_plate_number;
         private string? color;

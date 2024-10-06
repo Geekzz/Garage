@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Models
 {
-    internal class Bus: Vehicle
+    public class Bus: Vehicle
     {
         private uint number_of_seats;
         public Bus(string license_plate_number, string color, uint model_year, FuelType fuel_type, uint number_of_seats)

@@ -13,7 +13,7 @@ using System.Xml;
 
 namespace Garage.Handlers
 {
-    internal class GarageHandler : IHandler<Vehicle>
+    public class GarageHandler : IHandler<Vehicle>
     {
         private readonly List<Garage<Vehicle>> garage_list;
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Models
 {
-    internal class Car: Vehicle
+    public class Car: Vehicle
     {
         uint number_of_doors;
         public Car(string license_plate_number, string color, uint model_year, FuelType fuel_type, uint number_of_doors = 4)

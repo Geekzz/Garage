@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Models
 {
-    internal class Motorcycle: Vehicle
+    public class Motorcycle: Vehicle
     {
         uint engine_volume;
 

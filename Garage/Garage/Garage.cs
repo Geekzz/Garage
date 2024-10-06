@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Garage
 {
-    internal class Garage<T>(uint capacity) : IEnumerable<T> where T : Vehicle
+    public class Garage<T>(uint capacity) : IEnumerable<T> where T : Vehicle
     {
         // Readonly = makes sure it cannot be changed with method
         // Reference: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/readonly

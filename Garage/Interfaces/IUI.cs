@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Interfaces
 {
-    internal interface IUI
+    public interface IUI
     {
         // If I want to use static methods on an interface, I need to use static + abstract
         // Reference: https://stackoverflow.com/questions/9415257/how-can-i-implement-static-methods-on-an-interface/60083436#60083436

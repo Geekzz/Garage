@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Models
 {
-    internal class Boat: Vehicle
+    public class Boat: Vehicle
     {
         uint length_size;
         public Boat(string license_plate_number, string color, uint model_year, FuelType fuel_type, uint length_size)

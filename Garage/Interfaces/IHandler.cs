@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Garage.Interfaces
 {
-    internal interface IHandler<T>
+    public interface IHandler<T>
     {
         public void ReadGarageJsonFile();
         public void WriteToGarageJsonFile();
