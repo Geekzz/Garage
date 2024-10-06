@@ -110,7 +110,7 @@ namespace Garage.Handlers
         public IEnumerable<Vehicle> SearchVehicles(string input)
         {
             // Split the input by spaces to get individual search terms
-            var searchTerms = input.Split(" ");
+            var searchTerms = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
             // Create a list to hold all matching vehicles
             var matchingVehicles = new List<Vehicle>();
@@ -121,7 +121,7 @@ namespace Garage.Handlers
                 // Use LINQ to filter vehicles based on the search terms for each garage
                 var garageMatchingVehicles = garage
                     .Where(vehicle => vehicle != null &&
-                                     searchTerms.Any(term =>
+                                     searchTerms.All(term =>
                                          vehicle.GetColor().Contains(term, StringComparison.OrdinalIgnoreCase) ||
                                          vehicle.LicensePlateNumber().Contains(term, StringComparison.OrdinalIgnoreCase) ||
                                          vehicle.GetDescription().Contains(term, StringComparison.OrdinalIgnoreCase) ||
