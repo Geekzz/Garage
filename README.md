@@ -23,12 +23,6 @@ The main data structure representing the garage is formatted in a text file. Eac
 
 Each line in the file follows this format:
 `Capacity: <number>, Vehicles: [<vehicle1>, <vehicle2>, ...]`
-### Here is an example of how the file content may look:
-
-```
-Capacity: 2, Vehicles: [{Type: Car, LicensePlate: RTX291, Color: Black, ModelYear: 2008, FuelType: Electric, NumberOfDoors: 4}, {Type: Motorcycle, LicensePlate: RPG209, Color: Yellow, ModelYear: 1999, FuelType: Gas, EngineVolume: 800}]
-Capacity: 3, Vehicles: []
-```
 
 ### Components
 
@@ -52,6 +46,13 @@ Each vehicle entry is represented in the following format:
 - **AdditionalProperty**: Depending on the vehicle type, additional properties may include:
   - **NumberOfDoors**: For cars, the number of doors (e.g., `4`)
   - **EngineVolume**: For motorcycles, the engine size in cubic centimeters (e.g., `800`)
+ 
+### Here is an example of how the file content may look:
+
+```
+Capacity: 2, Vehicles: [{Type: Car, LicensePlate: RTX291, Color: Black, ModelYear: 2008, FuelType: Electric, NumberOfDoors: 4}, {Type: Motorcycle, LicensePlate: RPG209, Color: Yellow, ModelYear: 1999, FuelType: Gas, EngineVolume: 800}]
+Capacity: 3, Vehicles: []
+```
 
 # Example screenshot showing each vehicle
 ![image](https://github.com/user-attachments/assets/96450cee-a521-450d-bf14-b737635b1d01)
